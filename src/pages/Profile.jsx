@@ -20,6 +20,7 @@ import {
   Mail,
   Smartphone,
   Check,
+  Wallet,
 } from "lucide-react-native";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
@@ -172,16 +173,27 @@ const LanguageSelectModal = ({ visible, onClose }) => {
   );
 };
 
-// ─── Profile stat card ────────────────────────────────────────────────────────
+// ─── Wallet card ──────────────────────────────────────────────────────────────
 
-const StatCard = ({ label, value, accent }) => (
-  <View className={`flex-1 rounded-2xl px-4 py-3 ${accent === "primary" ? "bg-primary-muted" : "bg-secondary-muted"}`}>
-    <Text className={`text-xs font-semibold uppercase ${accent === "primary" ? "text-primary" : "text-secondary"}`}>
-      {label}
-    </Text>
-    <Text className="mt-1 text-base font-bold text-foreground" numberOfLines={1}>
-      {value}
-    </Text>
+const WalletCard = ({ credits, t }) => (
+  <View className="mt-5 w-full overflow-hidden rounded-2xl bg-[#0C172A] px-5 py-4">
+    <View className="flex-row items-center justify-between">
+      <View className="min-w-0 flex-1 pr-4">
+        <Text className="text-[11px] font-semibold uppercase tracking-wider text-white/55">
+          {t("profile.wallet")}
+        </Text>
+        <View className="mt-1.5 flex-row items-baseline gap-1.5">
+          <Text className="text-3xl font-bold text-white">{credits > 0 ? credits : 0}</Text>
+          <Text className="text-sm font-medium text-white/70">{t("profile.creditsLabel")}</Text>
+        </View>
+        {credits === 0 ? (
+          <Text className="mt-1.5 text-xs text-white/45">{t("profile.NoAvailableCredits")}</Text>
+        ) : null}
+      </View>
+      <View className="h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/10">
+        <Wallet size={22} color="#fff" strokeWidth={2} />
+      </View>
+    </View>
   </View>
 );
 
@@ -212,48 +224,48 @@ const Profile = () => {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 40 }}
+        contentContainerStyle={{ paddingBottom: 104 }}
       >
         {/* ── Hero ── */}
-        <View className="items-center bg-white px-6 pb-6 pt-5">
-          <Avatar className="mb-3 h-[88px] w-[88px] border-2 border-primary/20">
-            <AvatarImage source={user?.profilePictureURL} />
-            <AvatarFallback className="bg-primary-muted">
-              <Text className="text-2xl font-bold text-primary">
-                {displayName.charAt(0).toUpperCase()}
+        <View className="border-b border-border/50 bg-white px-4 pb-5 pt-4">
+          <View className="flex-row items-start gap-4">
+            <Avatar className="h-20 w-20 border-2 border-primary/15">
+              <AvatarImage source={user?.profilePictureURL} />
+              <AvatarFallback className="bg-primary-muted">
+                <Text className="text-2xl font-bold text-primary">
+                  {displayName.charAt(0).toUpperCase()}
+                </Text>
+              </AvatarFallback>
+            </Avatar>
+
+            <View className="min-w-0 flex-1 pt-1">
+              <View className="flex-row items-start justify-between gap-2">
+                <Text className="flex-1 text-xl font-bold text-foreground" numberOfLines={2}>
+                  {displayName}
+                </Text>
+                <Pressable
+                  onPress={() => setShowEdit(true)}
+                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                  className="h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted/60 active:bg-muted"
+                >
+                  <Pencil size={16} color="#374151" strokeWidth={2} />
+                </Pressable>
+              </View>
+              <Text className="mt-1 text-sm text-muted-foreground" numberOfLines={1}>
+                {user?.emailAddress}
               </Text>
-            </AvatarFallback>
-          </Avatar>
-
-          <Text className="text-xl font-bold text-foreground">{displayName}</Text>
-          <Text className="mt-1 text-sm text-muted-foreground">{user?.emailAddress}</Text>
-          {user?.phone ? (
-            <Text className="mt-0.5 text-sm text-muted-foreground">{user.phone}</Text>
-          ) : null}
-
-          <View className="mt-5 w-full flex-row gap-3">
-            <StatCard
-              label={t("profile.wallet")}
-              value={
-                credits > 0
-                  ? `${credits} ${t("profile.creditsLabel")}`
-                  : t("profile.NoAvailableCredits")
-              }
-              accent="primary"
-            />
-            <StatCard label={t("profile.language")} value={currentLang} accent="secondary" />
+              {user?.phone ? (
+                <Text className="mt-0.5 text-sm text-muted-foreground" numberOfLines={1}>
+                  {user.phone}
+                </Text>
+              ) : null}
+            </View>
           </View>
 
-          <Pressable
-            onPress={() => setShowEdit(true)}
-            className="mt-4 flex-row items-center gap-1.5 rounded-full border border-primary px-5 py-2 active:bg-primary-muted"
-          >
-            <Pencil size={14} color="#019C7F" />
-            <Text className="text-sm font-semibold text-primary">{t("profile.editProfile")}</Text>
-          </Pressable>
+          <WalletCard credits={credits} t={t} />
         </View>
 
-        <View className="px-4 pt-5">
+        <View className="px-4 pt-4">
           {/* ── Children ── */}
           <View className="mb-5">
             <Text className="mb-2 px-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">

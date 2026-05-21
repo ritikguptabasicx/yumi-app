@@ -2,7 +2,7 @@ import { View, Text, Pressable } from "react-native";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useUser } from "@/contexts/UserContext";
 import { useTranslation } from "react-i18next";
-import { Wallet } from "lucide-react-native";
+import { Wallet, ChevronRight } from "lucide-react-native";
 import { useRouter } from "expo-router";
 
 const getGreetingKey = () => {
@@ -44,14 +44,16 @@ export const ParentProfile = () => {
         </View>
       </View>
 
-      <View className="flex-row items-center gap-1.5 rounded-full border border-primary/10 bg-accent px-3 py-1.5">
-        <Wallet size={15} color="#019C7F" />
-        <Text className="text-xs font-semibold text-primary">
-          {credits > 0
-            ? `${credits} ${t("profile.creditsLabel")}`
-            : `0 ${t("profile.creditsLabel")}`}
+      <Pressable
+        onPress={() => router.push("/(app)/(tabs)/profile")}
+        className="flex-row items-center gap-2 rounded-2xl border border-primary/15 bg-primary-muted px-3.5 py-2.5 active:opacity-80"
+      >
+        <Wallet size={16} color="#019C7F" strokeWidth={2} />
+        <Text className="text-xs font-bold text-primary">
+          {credits} {t("profile.creditsLabel")}
         </Text>
-      </View>
+        <ChevronRight size={14} color="#019C7F" />
+      </Pressable>
     </View>
   );
 };

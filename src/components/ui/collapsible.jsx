@@ -37,5 +37,9 @@ export function CollapsibleTrigger({ children, className }) {
 export function CollapsibleContent({ children, className }) {
   const { open } = React.useContext(CollapsibleContext);
   if (!open) return null;
-  return <View className={cn("pt-3", className)}>{children}</View>;
+  return (
+    <View className={cn("w-full pt-0", className)} style={{ width: "100%" }}>
+      {children}
+    </View>
+  );
 }

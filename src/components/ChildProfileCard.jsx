@@ -9,6 +9,7 @@ import {
   ChevronRight,
   Check,
   Pencil,
+  UserRound,
 } from "lucide-react-native";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "expo-router";
@@ -20,7 +21,7 @@ import Loader from "./Loader";
 import { api } from "@/lib/apiClient";
 import { images } from "@/lib/assets";
 
-const ChildProfileCard = ({ showActions = true }) => {
+const ChildProfileCard = ({ showActions = true, showSwitchChild = false }) => {
   const [open, setOpen] = useState(false);
   const { user, setUser } = useUser();
   const { children, isChildrenLoading, mutateChildren } = useChildren();
@@ -146,7 +147,17 @@ const ChildProfileCard = ({ showActions = true }) => {
               </View>
             </View>
 
-            {showActions ? (
+            {showSwitchChild ? (
+              <Pressable
+                onPress={() => setOpen(true)}
+                className="flex-row items-center gap-1.5 rounded-full border border-border/80 bg-muted/50 px-3 py-1.5 active:opacity-80"
+              >
+                <UserRound size={14} color="#64748B" />
+                <Text className="text-xs font-semibold text-foreground">
+                  {t("profile.switchChild")}
+                </Text>
+              </Pressable>
+            ) : showActions ? (
               <View className="flex-row items-center gap-2">
                 <Pressable
                   onPress={() => setOpen(true)}

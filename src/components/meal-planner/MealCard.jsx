@@ -1,7 +1,6 @@
 import { useCallback, useRef } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useUser } from "@/contexts/UserContext";
 import { Plus, Minus, AlertTriangle } from "lucide-react-native";
@@ -185,17 +184,18 @@ const MealCard = ({ selectedMeals, availableMeals }) => {
   });
 
   return (
-    <View className="gap-3">
+    <View className="w-full gap-3">
       {mergedMeals.map((meal) => (
         <View
           key={meal.itemId}
           className={cn(
-            "relative rounded-2xl border bg-card p-3",
+            "relative w-full rounded-2xl border bg-card p-4",
             meal.isAdded === 1 ? "border-primary bg-primary-muted" : "border-border"
           )}
+          style={{ width: "100%" }}
         >
-          <View className="mb-3">
-            <View className="flex-row items-start gap-2">
+          <View className="mb-3 w-full">
+            <View className="w-full flex-row items-start gap-2">
               <Text className="min-w-0 flex-1 text-sm font-semibold leading-5 text-foreground">
                 {meal.itemName}
               </Text>
@@ -222,7 +222,7 @@ const MealCard = ({ selectedMeals, availableMeals }) => {
             )}
           </View>
 
-          <View className="flex-row items-center justify-between">
+          <View className="w-full flex-row items-center justify-between gap-3">
             <View className="min-w-0 flex-1 flex-row items-baseline gap-1">
               <Text className="text-base font-bold text-primary">
                 {meal.itemPrice?.toFixed(2)}
@@ -230,30 +230,32 @@ const MealCard = ({ selectedMeals, availableMeals }) => {
               <Text className="text-xs font-medium text-primary">{meal.currency || ""}</Text>
             </View>
 
-            <View className="flex-row items-center rounded-full bg-white/70 p-0.5">
-              <Button
-                variant="outline"
+            <View className="flex-row h-11 items-center rounded-full border border-primary/20 bg-primary-muted p-1">
+              <Pressable
                 onPress={() => handleDecrement(meal)}
                 disabled={meal.quantity === 0}
                 className={cn(
-                  "h-9 w-9 rounded-full border-primary bg-white p-0",
-                  meal.quantity === 0 && "opacity-50"
+                  "h-9 w-9 items-center justify-center rounded-full bg-white",
+                  meal.quantity === 0 && "opacity-40"
                 )}
+                style={({ pressed }) =>
+                  pressed && (meal.quantity || 0) > 0 ? { opacity: 0.7 } : undefined
+                }
               >
-                <Minus size={14} color="#019C7F" />
-              </Button>
+                <Minus size={16} color="#019C7F" strokeWidth={2.5} />
+              </Pressable>
 
-              <Text className="mx-1 min-w-[30px] text-center text-sm font-bold text-foreground">
-                {meal.quantity || 0}
-              </Text>
+              <View className="min-w-[40px] items-center justify-center px-2">
+                <Text className="text-sm font-bold text-primary">{meal.quantity || 0}</Text>
+              </View>
 
-              <Button
-                variant="outline"
+              <Pressable
                 onPress={() => handleIncrement(meal)}
-                className="h-9 w-9 rounded-full border-primary bg-white p-0"
+                className="h-9 w-9 items-center justify-center rounded-full bg-white"
+                style={({ pressed }) => (pressed ? { opacity: 0.7 } : undefined)}
               >
-                <Plus size={14} color="#019C7F" />
-              </Button>
+                <Plus size={16} color="#019C7F" strokeWidth={2.5} />
+              </Pressable>
             </View>
           </View>
         </View>

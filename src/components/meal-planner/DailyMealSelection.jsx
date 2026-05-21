@@ -130,13 +130,14 @@ const DailyMealSelection = ({
         className="flex-1"
         contentContainerStyle={{
           flexGrow: 1,
+          alignItems: "stretch",
           paddingHorizontal: 16,
           paddingTop: 14,
           paddingBottom: ACTION_BAR_HEIGHT + insets.bottom + 24,
         }}
         showsVerticalScrollIndicator={false}
       >
-        <View className="mb-4">
+        <View className="mb-4 w-full">
           <Text className="mb-3 text-base font-bold text-foreground">
             {t("meals.mealCategory")}
           </Text>
@@ -182,7 +183,9 @@ const DailyMealSelection = ({
             <AlertDialogCancel onPress={() => setShowConfirmDialog(false)}>
               {t("actions.stay")}
             </AlertDialogCancel>
-            <AlertDialogAction onPress={handleSkipDay}>{t("actions.proceed")}</AlertDialogAction>
+            <AlertDialogAction onPress={handleSkipDay}>
+              {t("actions.proceed")}
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

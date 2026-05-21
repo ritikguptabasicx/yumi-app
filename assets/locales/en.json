@@ -162,7 +162,9 @@
     "planMealsSubtitle": "Choose this week's lunch",
     "planSubtitle": "Fresh school meals, ready to plan.",
     "readySubtitle": "Pick meals for the week in just a few taps.",
-    "readyTitle": "Ready for a new week?"
+    "readyTitle": "Ready for a new week?",
+    "promoTitle": "Healthy meals, happy kids!",
+    "promoSubtitle": "Nutritious. Balanced. Delivered with care."
   },
   "meals": {
     "daySkipped": "Day has been skipped successfully",

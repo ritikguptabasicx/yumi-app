@@ -162,7 +162,9 @@
     "planMealsSubtitle": "Alege prânzul săptămânii",
     "planSubtitle": "Mese proaspete pentru școală, gata de planificat.",
     "readySubtitle": "Alege mesele pentru săptămână în câteva atingeri.",
-    "readyTitle": "Pregătit pentru o nouă săptămână?"
+    "readyTitle": "Pregătit pentru o nouă săptămână?",
+    "promoTitle": "Mese sănătoase, copii fericiți!",
+    "promoSubtitle": "Nutritive. Echilibrate. Livrate cu grijă."
   },
   "meals": {
     "daySkipped": "Ziua a fost omisă cu succes",

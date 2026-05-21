@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AppImage from "@/components/AppImage";
 import { useRouter } from "expo-router";
 import WeekCalendar from "./WeekCalendar";
@@ -12,12 +11,15 @@ import DailyMealSelection from "./DailyMealSelection";
 import { api } from "@/lib/apiClient";
 import { useCheckoutStore } from "@/store/checkoutStore";
 import { images } from "@/lib/assets";
+import { normalizeMenuItems } from "@/lib/mealPlanner";
+import { Button } from "@/components/ui/button";
 
 const MealPlannerContainer = () => {
   const {
     selectedDay,
     setSelectedDay,
     addSkippedDay,
+    skippedDays,
     menuItems,
     setMenuItems,
     selectedMeals,
@@ -30,13 +32,13 @@ const MealPlannerContainer = () => {
     hasAtLeastOneMealSelected,
     getAvailableMealsForDay,
     getAvailableWeekdays,
+    resetStore,
   } = useMealPlannerStore();
 
   const { t } = useTranslation();
   const router = useRouter();
   const { user } = useUser();
   const { setCheckoutData } = useCheckoutStore();
-  const insets = useSafeAreaInsets();
 
   const initializePreSelectedMeals = (menuData) => {
     const preSelected = {};
@@ -85,9 +87,10 @@ const MealPlannerContainer = () => {
 
       const response = await api.post(`/api/v1/meal/items`, { childId });
       const data = response.data;
-      setMenuItems(data.data);
+      const normalizedMenu = normalizeMenuItems(data.data);
+      setMenuItems(normalizedMenu);
 
-      const preSelectedMeals = initializePreSelectedMeals(data.data);
+      const preSelectedMeals = initializePreSelectedMeals(normalizedMenu);
       setSelectedMeals(preSelectedMeals);
     } catch (err) {
       console.error(err);
@@ -98,6 +101,7 @@ const MealPlannerContainer = () => {
   };
 
   useEffect(() => {
+    resetStore();
     if (!user?.selectedChildId) return;
     loadMenuItems();
   }, [user?.selectedChildId]);
@@ -155,25 +159,31 @@ const MealPlannerContainer = () => {
     }
   };
 
-  // ✅ Fix 2: Safe area aware loading state
+  if (!user?.selectedChildId) {
+    return (
+      <View className="flex-1 items-center justify-center gap-6 px-6">
+        <AppImage source={images.illustration3} width={160} height={160} contentFit="contain" />
+        <Text className="text-center text-base font-semibold text-muted-foreground">
+          {t("child.selectChild")}
+        </Text>
+        <Button className="rounded-xl px-6" onPress={() => router.push("/(app)/(tabs)")}>
+          {t("navigation.home")}
+        </Button>
+      </View>
+    );
+  }
+
   if (isLoading) {
     return (
-      <View
-        className="flex-1 items-center justify-center"
-        style={{ paddingTop: insets.top + 32, paddingBottom: insets.bottom + 32 }}
-      >
+      <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color="#00A76F" />
       </View>
     );
   }
 
-  // ✅ Fix 2 & 3: Safe area aware + responsive empty state
   if (!menuItems?.length) {
     return (
-      <View
-        className="flex-1 items-center justify-center gap-6 px-4"
-        style={{ paddingTop: insets.top + 32, paddingBottom: insets.bottom + 32 }}
-      >
+      <View className="flex-1 items-center justify-center gap-6 px-4">
         <AppImage source={images.illustration3} width={160} height={160} contentFit="contain" />
         <Text className="w-full max-w-xs px-6 text-center text-base font-semibold text-gray-600">
           {t("meals.noMealsMessage")}
@@ -182,13 +192,14 @@ const MealPlannerContainer = () => {
     );
   }
 
-  // ✅ Fix 1: Removed redundant nested View
   return (
     <View className="flex-1 bg-background">
       <WeekCalendar
         selectedDay={selectedDay}
+        onDaySelect={setSelectedDay}
         isDaySkipped={isDaySkipped}
         menuItems={menuItems}
+        skippedDays={skippedDays}
       />
       <DailyMealSelection
         selectedDay={selectedDay}

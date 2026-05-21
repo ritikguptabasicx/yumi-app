@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { sortWeekDetails } from "@/lib/mealPlanner";
 
 const initialState = {
   selectedDay: 1,
@@ -148,13 +149,7 @@ export const useMealPlannerStore = create((set, get) => ({
     const mealPlanner = state.menuItems[0]?.mealPlanner;
     if (!mealPlanner?.weekDetails?.length) return [];
 
-    const sortedWeeks = mealPlanner.weekDetails.sort((a, b) => {
-      const [da, ma, ya] = a.weekDate.split("-").map(Number);
-      const [db, mb, yb] = b.weekDate.split("-").map(Number);
-      return (
-        new Date(ya, ma - 1, da).getTime() - new Date(yb, mb - 1, db).getTime()
-      );
-    });
+    const sortedWeeks = sortWeekDetails(mealPlanner.weekDetails);
 
     if (dayIndex > sortedWeeks.length) return [];
 

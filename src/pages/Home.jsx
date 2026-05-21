@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
@@ -11,10 +11,10 @@ import AlertBanner from "@/components/AlertBanner";
 import { ParentProfile } from "@/components/ParentProfile";
 import ChildProfileCard from "@/components/ChildProfileCard";
 import AppHeader from "@/components/AppHeader";
-import { CalendarDays } from "lucide-react-native";
-import { Button } from "@/components/ui/button";
-
+import AppImage from "@/components/AppImage";
+import { CalendarDays, ChevronRight, Shield } from "lucide-react-native";
 import { useActiveOrder } from "@/hooks/useActiveOrder";
+import { images } from "@/lib/assets";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -42,6 +42,7 @@ const Home = () => {
   );
 
   const alert = dashboardData?.notifications || null;
+  const hasActiveOrders = ordersData?.length > 0;
 
   return (
     <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
@@ -52,12 +53,10 @@ const Home = () => {
       >
         <AppHeader />
 
-        <View className="mt-4">
-          <ParentProfile />
-        </View>
+        <ParentProfile />
 
-        <View className="mt-4">
-          <ChildProfileCard showActions={false} />
+        <View className="mt-1">
+          <ChildProfileCard showActions={false} showSwitchChild />
         </View>
 
         <View className="mt-4">
@@ -68,7 +67,7 @@ const Home = () => {
           />
         </View>
 
-        {ordersData?.length > 0 && (
+        {hasActiveOrders ? (
           <View className="mt-5">
             <SectionHeader
               title={t("navigation.activeOrder")}
@@ -77,37 +76,50 @@ const Home = () => {
             />
             <ActiveOrder orderData={ordersData} isLoading={loading} />
           </View>
+        ) : (
+          <Pressable
+            onPress={() => router.push("/(app)/(tabs)/meal-planner")}
+            className="mx-4 mt-5 flex-row items-center gap-4 rounded-2xl border border-border/50 bg-white p-4 active:opacity-90"
+            style={{
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.05,
+              shadowRadius: 8,
+              elevation: 2,
+            }}
+          >
+            <View className="h-12 w-12 items-center justify-center rounded-2xl bg-secondary-muted">
+              <CalendarDays size={22} color="#F37C21" />
+            </View>
+            <View className="min-w-0 flex-1">
+              <Text className="text-base font-bold text-foreground">{t("home.readyTitle")}</Text>
+              <Text className="mt-0.5 text-sm leading-5 text-muted-foreground">
+                {t("home.readySubtitle")}
+              </Text>
+            </View>
+            <ChevronRight size={20} color="#94A3B8" />
+          </Pressable>
         )}
 
-        {!ordersData?.length ? (
-          <View className="mx-4 mt-6 rounded-3xl border border-border/50 bg-white p-5 shadow-sm">
-            <View className="flex-row items-center gap-4">
-              <View className="h-12 w-12 items-center justify-center rounded-2xl bg-secondary/10">
-                <CalendarDays size={22} color="#F37C21" />
-              </View>
-              <View className="min-w-0 flex-1">
-                <Text className="text-base font-bold text-foreground">
-                  {t("home.readyTitle")}
-                </Text>
-                <Text className="mt-1 text-xs leading-4 text-muted-foreground">
-                  {t("home.readySubtitle")}
-                </Text>
-              </View>
+        <View className="mx-4 mt-5 overflow-hidden rounded-2xl bg-primary-muted">
+          <View className="flex-row items-center p-4">
+            <View className="mr-3 h-11 w-11 items-center justify-center rounded-xl bg-white/80">
+              <Shield size={22} color="#019C7F" strokeWidth={2} />
             </View>
-            <View className="mt-4">
-              <Button
-                onPress={() => router.push("/(app)/(tabs)/meal-planner")}
-                className="h-11 w-full rounded-2xl bg-secondary active:opacity-90"
-              >
-                <Text className="text-sm font-bold text-white">
-                  {t("orders.OrderNow")}
-                </Text>
-              </Button>
+            <View className="min-w-0 flex-1 pr-2">
+              <Text className="text-base font-bold text-foreground">{t("home.promoTitle")}</Text>
+              <Text className="mt-1 text-sm leading-5 text-muted-foreground">
+                {t("home.promoSubtitle")}
+              </Text>
             </View>
+            <AppImage
+              source={images.illustration5}
+              width={72}
+              height={64}
+              contentFit="contain"
+            />
           </View>
-        ) : null}
-
-        <View className="h-6" />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
