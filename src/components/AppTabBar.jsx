@@ -17,17 +17,17 @@ export default function AppTabBar({ state, descriptors, navigation }) {
 
   return (
     <View
-      className="border-t border-border/60 bg-white"
+      className="border-t border-border/40 bg-white px-3 pt-2"
       style={{
-        paddingBottom: Math.max(insets.bottom, Platform.OS === "ios" ? 8 : 12),
+        paddingBottom: Math.max(insets.bottom, Platform.OS === "ios" ? 10 : 12),
         shadowColor: "#0C0C20",
-        shadowOffset: { width: 0, height: -4 },
-        shadowOpacity: 0.06,
-        shadowRadius: 12,
-        elevation: 12,
+        shadowOffset: { width: 0, height: -8 },
+        shadowOpacity: 0.12,
+        shadowRadius: 18,
+        elevation: 18,
       }}
     >
-      <View className="mx-2 flex-row items-center justify-between px-1 pt-2">
+      <View className="flex-row items-center justify-between rounded-3xl bg-white px-1.5 py-1">
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const tab = TAB_CONFIG.find((t) => t.name === route.name);
@@ -35,7 +35,7 @@ export default function AppTabBar({ state, descriptors, navigation }) {
 
           const isFocused = state.index === index;
           const { Icon } = tab;
-          const color = isFocused ? "#019C7F" : "#94A3B8";
+          const color = isFocused ? "#F37C21" : "#94A3B8";
 
           const onPress = () => {
             const event = navigation.emit({
@@ -55,12 +55,12 @@ export default function AppTabBar({ state, descriptors, navigation }) {
               accessibilityRole="button"
               accessibilityState={isFocused ? { selected: true } : {}}
               accessibilityLabel={options.title ?? t(tab.labelKey)}
-              className="min-w-[72px] flex-1 items-center py-1"
+              className="min-w-[70px] flex-1 items-center"
             >
               <View
                 className={cn(
-                  "mb-1 items-center justify-center rounded-2xl px-4 py-1.5",
-                  isFocused && "bg-primary-muted"
+                  "mb-1 h-10 min-w-[48px] items-center justify-center rounded-2xl border px-3",
+                  isFocused ? "border-secondary bg-white" : "border-transparent"
                 )}
               >
                 <Icon size={22} color={color} strokeWidth={isFocused ? 2.5 : 2} />
@@ -68,7 +68,7 @@ export default function AppTabBar({ state, descriptors, navigation }) {
               <Text
                 className={cn(
                   "text-[11px] font-medium",
-                  isFocused ? "text-primary" : "text-muted-foreground"
+                  isFocused ? "text-secondary" : "text-muted-foreground"
                 )}
                 numberOfLines={1}
               >

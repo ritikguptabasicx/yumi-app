@@ -152,6 +152,18 @@
     "noFaqsMessage": "Momentan nu există întrebări frecvente disponibile.",
     "title": "Întrebări Frecvente"
   },
+  "home": {
+    "goodAfternoon": "Bună ziua",
+    "goodEvening": "Bună seara",
+    "goodMorning": "Bună dimineața",
+    "freshMeals": "Proaspăt azi",
+    "historySubtitle": "Urmărește mesele anterioare",
+    "planMeals": "Planifică mese",
+    "planMealsSubtitle": "Alege prânzul săptămânii",
+    "planSubtitle": "Mese proaspete pentru școală, gata de planificat.",
+    "readySubtitle": "Alege mesele pentru săptămână în câteva atingeri.",
+    "readyTitle": "Pregătit pentru o nouă săptămână?"
+  },
   "meals": {
     "daySkipped": "Ziua a fost omisă cu succes",
     "managePastOrders": "Vizualizați și gestionați comenzile dvs. anterioare",
@@ -252,6 +264,9 @@
     "credits": "Credite",
     "discount": "Reducere",
     "grandTotal": "Total General",
+    "allOrders": "Toate",
+    "historyOverview": "Prezentare istoric",
+    "latestOrder": "Ultima comandă",
     "next": "Următorul",
     "noMealsForDay": "Nicio masă comandată pentru această zi",
     "noOrderFound": "Nicio comandă găsită",
@@ -267,6 +282,7 @@
     "orderNumber": "Comanda #",
     "orderProcessedSuccessfully": "Comanda a fost procesată cu succes",
     "orderSummary": "Rezumatul comenzii",
+    "ordersPlaced": "comenzi plasate",
     "paymentError": "Procesarea plății a eșuat. Vă rugăm să încercați din nou.",
     "payNow": "Plătește acum",
     "processingOrder": "Se procesează comanda...",
@@ -278,6 +294,7 @@
     "subtotal": "Subtotal",
     "tax": "TVA",
     "total": "Total de plătit",
+    "totalSpent": "Total cheltuit",
     "totalPrice": "Preț total"
   },
   "payments": {
@@ -307,11 +324,23 @@
     "helloUser": "Salut, ",
     "helpSection": "Ajutor și suport",
     "language": "Limbă",
+    "notifications": "Notificări",
+    "notificationsSubtitle": "Alerte pentru comenzi, email și aplicație",
     "NoAvailableCredits": "Nu există credite disponibile",
     "phone": "Telefon",
     "preferencesSection": "Preferințe",
     "switchChild": "Schimbă copilul",
     "wallet": "Portofel mese"
+  },
+  "notifications": {
+    "emailUpdates": "Actualizări prin email",
+    "emailUpdatesDescription": "Primește chitanțe și mesaje despre cont prin email.",
+    "emptyMessage": "Actualizările comenzilor și alertele despre mese vor apărea aici.",
+    "orderUpdates": "Actualizări comenzi",
+    "orderUpdatesDescription": "Primește notificări când starea comenzii se schimbă.",
+    "preferencesDescription": "Alege cum te ține Yumi la curent.",
+    "pushUpdates": "Notificări push",
+    "pushUpdatesDescription": "Afișează mementouri importante pe acest dispozitiv."
   },
   "quickLinks": {
     "about": {

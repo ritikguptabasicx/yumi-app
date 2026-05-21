@@ -20,19 +20,17 @@ const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const [appReady, setAppReady] = useState(false);
-  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     async function prepare() {
       await initLanguage();
       setAppReady(true);
       await SplashScreen.hideAsync();
-      setTimeout(() => setShowSplash(false), 2000);
     }
     prepare();
   }, []);
 
-  if (!appReady || showSplash) {
+  if (!appReady) {
     return (
       <GestureHandlerRootView style={{ flex: 1 }}>
         <SplashScreenView />

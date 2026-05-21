@@ -185,33 +185,37 @@ const MealCard = ({ selectedMeals, availableMeals }) => {
   });
 
   return (
-    <View className="gap-2 sm:gap-3">
+    <View className="gap-3">
       {mergedMeals.map((meal) => (
         <View
           key={meal.itemId}
           className={cn(
-            "relative rounded-lg border bg-card p-2 sm:p-3",
+            "relative rounded-2xl border bg-card p-3",
             meal.isAdded === 1 ? "border-primary bg-primary-muted" : "border-border"
           )}
         >
-          <View className="mb-2 sm:mb-3">
-            <View className="flex-row items-start justify-between gap-2">
-              <Text className="flex-1 text-xs font-medium text-foreground sm:text-sm">{meal.itemName}</Text>
+          <View className="mb-3">
+            <View className="flex-row items-start gap-2">
+              <Text className="min-w-0 flex-1 text-sm font-semibold leading-5 text-foreground">
+                {meal.itemName}
+              </Text>
               {meal.itemUID && (
-                <Badge variant="outline" className="h-4 px-1">
+                <Badge variant="outline" className="h-5 shrink-0 px-1.5">
                   <Text className="text-xs">{meal.itemUID}</Text>
                 </Badge>
               )}
             </View>
 
             {meal.description ? (
-              <Text className="mt-1 text-xs text-muted-foreground">{meal.description}</Text>
+              <Text className="mt-1.5 text-xs leading-4 text-muted-foreground">
+                {meal.description}
+              </Text>
             ) : null}
 
             {meal.allergens && meal.allergens.length > 0 && (
-              <View className="mt-2 flex-row items-center gap-1 sm:mt-3">
+              <View className="mt-2 flex-row items-start gap-1.5">
                 <AlertTriangle size={12} color="#F97316" />
-                <Text className="text-xs text-muted-foreground">
+                <Text className="min-w-0 flex-1 text-xs leading-4 text-muted-foreground">
                   {t("meals.contains")} {meal.allergens.map((a) => a.name).join(", ")}
                 </Text>
               </View>
@@ -219,38 +223,36 @@ const MealCard = ({ selectedMeals, availableMeals }) => {
           </View>
 
           <View className="flex-row items-center justify-between">
-            <View className="flex-row items-center gap-1">
-              <Text className="text-sm font-medium text-primary sm:text-base">
+            <View className="min-w-0 flex-1 flex-row items-baseline gap-1">
+              <Text className="text-base font-bold text-primary">
                 {meal.itemPrice?.toFixed(2)}
               </Text>
-              <Text className="text-xs text-primary">{meal.currency || ""}</Text>
+              <Text className="text-xs font-medium text-primary">{meal.currency || ""}</Text>
             </View>
 
-            <View className="flex-row items-center rounded-full p-0.5 sm:p-1">
+            <View className="flex-row items-center rounded-full bg-white/70 p-0.5">
               <Button
                 variant="outline"
                 onPress={() => handleDecrement(meal)}
                 disabled={meal.quantity === 0}
                 className={cn(
-                  "h-6 w-6 rounded-full border-primary p-0 sm:h-7 sm:w-7",
+                  "h-9 w-9 rounded-full border-primary bg-white p-0",
                   meal.quantity === 0 && "opacity-50"
                 )}
-                size="icon"
               >
-                <Minus size={12} color="#019C7F" />
+                <Minus size={14} color="#019C7F" />
               </Button>
 
-              <Text className="mx-0.5 w-5 text-center text-xs font-medium sm:mx-1 sm:w-6 sm:text-sm">
+              <Text className="mx-1 min-w-[30px] text-center text-sm font-bold text-foreground">
                 {meal.quantity || 0}
               </Text>
 
               <Button
                 variant="outline"
                 onPress={() => handleIncrement(meal)}
-                className="h-6 w-6 rounded-full border-primary p-0 sm:h-7 sm:w-7"
-                size="icon"
+                className="h-9 w-9 rounded-full border-primary bg-white p-0"
               >
-                <Plus size={12} color="#019C7F" />
+                <Plus size={14} color="#019C7F" />
               </Button>
             </View>
           </View>

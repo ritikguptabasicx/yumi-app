@@ -1,34 +1,38 @@
-import { View, Text } from "react-native";
-import { Button } from "@/components/ui/button";
+import { ScrollView, Text, Pressable } from "react-native";
 import { cn } from "@/lib/utils";
 
 const MealTypeSelector = ({ mealTypes, activeMealType, onTypeSelect }) => (
-  <View className="gap-2 sm:gap-3">
+  <ScrollView
+    horizontal
+    showsHorizontalScrollIndicator={false}
+    className="-mx-4"
+    contentContainerStyle={{ paddingHorizontal: 16, gap: 8 }}
+  >
     {mealTypes?.map((type) => {
       const isActive = type.itemType === activeMealType;
 
       return (
-        <Button
+        <Pressable
           key={type.itemType}
-          variant="outline"
           onPress={() => onTypeSelect(type.itemType)}
           className={cn(
-            "h-11 w-full rounded-lg sm:h-12 sm:rounded-full",
-            isActive ? "border-transparent bg-primary" : "border-border bg-card"
+            "h-10 min-w-[112px] items-center justify-center rounded-full border px-4",
+            isActive ? "border-primary bg-primary" : "border-border bg-white"
           )}
         >
           <Text
             className={cn(
-              "text-sm font-medium",
+              "text-sm font-semibold",
               isActive ? "text-primary-foreground" : "text-foreground"
             )}
+            numberOfLines={1}
           >
             {type.itemType}
           </Text>
-        </Button>
+        </Pressable>
       );
     })}
-  </View>
+  </ScrollView>
 );
 
 export default MealTypeSelector;

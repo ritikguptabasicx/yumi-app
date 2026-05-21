@@ -40,14 +40,16 @@ const WeekCalendar = ({ selectedDay, isDaySkipped, menuItems, skippedDays = [] }
   };
 
   return (
-    <Card className="rounded-none bg-card px-4 py-5 sm:px-5 sm:py-6">
-      <View className="mb-6 flex-row items-center gap-3">
-        <AppImage source={images.calendar} width={36} height={36} contentFit="contain" />
-        <View className="flex-1 gap-0.5">
-          <Text className="text-xs font-medium text-muted-foreground sm:text-sm">
+    <Card className="rounded-none border-0 border-b border-border/70 bg-white px-4 py-3 shadow-none">
+      <View className="mb-3 flex-row items-center gap-2.5">
+        <View className="h-9 w-9 items-center justify-center rounded-full bg-primary-muted">
+          <AppImage source={images.calendar} width={22} height={22} contentFit="contain" />
+        </View>
+        <View className="min-w-0 flex-1">
+          <Text className="text-xs font-medium text-muted-foreground">
             {t("meals.week")} {weekDays[0]?.fullDate && format(weekDays[0].fullDate, "w")}
           </Text>
-          <Text className="text-sm font-semibold text-foreground sm:text-base">
+          <Text className="mt-0.5 text-sm font-semibold text-foreground" numberOfLines={1}>
             {weekDays[0]?.fullDate && format(weekDays[0].fullDate, "MMM dd")} –{" "}
             {weekDays[weekDays.length - 1]?.fullDate &&
               format(weekDays[weekDays.length - 1].fullDate, "MMM dd, yyyy")}
@@ -55,7 +57,7 @@ const WeekCalendar = ({ selectedDay, isDaySkipped, menuItems, skippedDays = [] }
         </View>
       </View>
 
-      <View className="gap-2 sm:gap-3">
+      <View className="flex-row gap-1.5">
         {weekDays.map((day) => {
           const isSelected = selectedDay === day.dayIndex;
           const hasOrders = isDayOrdered(day.weekDate);
@@ -69,7 +71,7 @@ const WeekCalendar = ({ selectedDay, isDaySkipped, menuItems, skippedDays = [] }
               key={day.id}
               disabled={isSkipped || hasOrders}
               className={cn(
-                "relative flex-1 items-center justify-center rounded-lg border px-1.5 py-2 sm:px-2 sm:py-2.5",
+                "relative min-h-[58px] flex-1 items-center justify-center rounded-xl border px-1 py-2",
                 isSelected
                   ? "border-primary bg-primary"
                   : isSkipped && !hasOrders
@@ -79,15 +81,16 @@ const WeekCalendar = ({ selectedDay, isDaySkipped, menuItems, skippedDays = [] }
             >
               <Text
                 className={cn(
-                  "mb-0.5 text-xs font-medium",
+                  "mb-1 text-[11px] font-semibold uppercase",
                   isSelected ? "text-primary-foreground" : "text-foreground"
                 )}
+                numberOfLines={1}
               >
                 {t(`weekdays.${getWeekdayKey(day.day)}.short`)}
               </Text>
               <Text
                 className={cn(
-                  "text-xs font-semibold sm:text-sm",
+                  "text-sm font-bold",
                   isSelected ? "text-primary-foreground" : "text-foreground"
                 )}
               >

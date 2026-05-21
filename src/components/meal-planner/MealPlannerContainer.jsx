@@ -173,8 +173,8 @@ const MealPlannerContainer = () => {
   }
 
   return (
-    <View className="flex-1">
-      <View className="gap-6">
+    <View className="flex-1 bg-background">
+      <View className="flex-1">
         <WeekCalendar
           selectedDay={selectedDay}
           isDaySkipped={isDaySkipped}

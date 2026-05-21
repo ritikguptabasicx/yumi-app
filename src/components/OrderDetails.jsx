@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text, Pressable, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ChevronDown, ChevronUp } from "lucide-react-native";
+import { CalendarDays, ChevronDown, ChevronUp, Receipt } from "lucide-react-native";
 import { cn } from "@/lib/utils";
 import ScreenHeader from "@/components/ScreenHeader";
 import { useTranslation } from "react-i18next";
@@ -15,18 +15,23 @@ const calculateDayTotal = (items) => {
 const formatCurrency = (amount, currency) => `${amount.toFixed(2)} ${currency}`;
 
 const OrderSummaryCard = ({ orderDetails, t }) => (
-  <View className="rounded-xl bg-white p-4 shadow-sm">
-    <View className="gap-3">
-      <View className="flex-row justify-between">
-        <Text className="text-sm text-gray-500">{t("orders.orderDate")}</Text>
-        <Text className="text-sm font-medium">
-          {new Date(orderDetails.orderDate).toLocaleDateString()}
-        </Text>
+  <View className="overflow-hidden rounded-3xl bg-primary">
+    <View className="absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/10" />
+    <View className="absolute -bottom-12 left-12 h-28 w-28 rounded-full bg-secondary/30" />
+    <View className="px-5 py-5">
+      <View className="mb-4 h-12 w-12 items-center justify-center rounded-2xl bg-white/15">
+        <Receipt size={24} color="#fff" />
       </View>
-      <View className="flex-row justify-between">
-        <Text className="text-sm text-gray-500">{t("orders.total")}</Text>
-        <Text className="text-sm font-medium text-secondary">
-          {formatCurrency(orderDetails.totalAmount, orderDetails.currency)}
+      <Text className="text-sm font-medium text-white/80">
+        {t("orders.orderNumber")}{orderDetails.orderNumber}
+      </Text>
+      <Text className="mt-1 text-3xl font-bold text-white">
+        {formatCurrency(orderDetails.totalAmount, orderDetails.currency)}
+      </Text>
+      <View className="mt-3 flex-row items-center gap-2">
+        <CalendarDays size={15} color="rgba(255,255,255,0.8)" />
+        <Text className="text-sm text-white/80">
+          {new Date(orderDetails.orderDate).toLocaleDateString()}
         </Text>
       </View>
     </View>
@@ -34,18 +39,22 @@ const OrderSummaryCard = ({ orderDetails, t }) => (
 );
 
 const LineItem = ({ item, currency, t }) => (
-  <View className="mt-4 gap-2">
-    <View className="flex-row justify-between">
-      <View className="flex-1 gap-1 pr-2">
-        <Text className="text-sm font-medium">{item.menuItem}</Text>
-        <View className="flex-row items-center gap-2">
-          <Text className="rounded-full bg-gray-100 px-2 py-0.5 text-xs">{item.itemCategory}</Text>
-          <Text className="text-xs text-gray-500">
+  <View className="mt-3 rounded-2xl bg-background p-3">
+    <View className="flex-row items-start justify-between gap-3">
+      <View className="min-w-0 flex-1">
+        <Text className="text-sm font-semibold leading-5 text-foreground">{item.menuItem}</Text>
+        <View className="mt-2 flex-row flex-wrap items-center gap-2">
+          <Text className="rounded-full bg-white px-2.5 py-1 text-xs font-medium text-muted-foreground">
+            {item.itemCategory}
+          </Text>
+          <Text className="rounded-full bg-primary-muted px-2.5 py-1 text-xs font-medium text-primary">
             {t("orders.quantity")}: {item.quantity}
           </Text>
         </View>
       </View>
-      <Text className="text-sm font-medium">{formatCurrency(item.lineAmount, currency)}</Text>
+      <Text className="shrink-0 text-sm font-bold text-secondary">
+        {formatCurrency(item.lineAmount, currency)}
+      </Text>
     </View>
   </View>
 );
@@ -57,7 +66,7 @@ const DayCard = ({ day, currency, expandedDays, toggleDay, t }) => {
   return (
     <View
       className={cn(
-        "overflow-hidden rounded-xl bg-white shadow-sm",
+        "overflow-hidden rounded-2xl border border-border/70 bg-white shadow-sm",
         day.status === "Skipped" && "opacity-75"
       )}
     >
@@ -66,27 +75,27 @@ const DayCard = ({ day, currency, expandedDays, toggleDay, t }) => {
         onPress={() => hasItems && toggleDay(day.weekdayId)}
         disabled={!hasItems}
       >
-        <View>
+        <View className="min-w-0 flex-1">
           <View className="flex-row items-center gap-2">
-            <Text className="text-base font-medium">
+            <Text className="text-base font-bold text-foreground">
               {t(`weekdays.${getWeekdayKey(day.weekday)}.full`)}
             </Text>
             <Text
               className={cn(
-                "rounded-full px-2 py-0.5 text-xs font-medium",
+                "rounded-full px-2.5 py-1 text-xs font-bold",
                 day.status === "Ordered" && "bg-success-bg text-success-text",
-                day.status === "Skipped" && "bg-gray-100 text-gray-600"
+                day.status === "Skipped" && "bg-muted text-muted-foreground"
               )}
             >
               {t(`orders.${day.status.toLowerCase()}`)}
             </Text>
           </View>
-          <Text className="text-sm text-gray-500">{day.weekdayDate}</Text>
+          <Text className="mt-1 text-sm text-muted-foreground">{day.weekdayDate}</Text>
         </View>
 
         {hasItems && (
           <View className="flex-row items-center gap-2">
-            <Text className="text-sm font-medium">
+            <Text className="text-sm font-bold text-secondary">
               {formatCurrency(calculateDayTotal(day.lineItems), currency)}
             </Text>
             {isExpanded ? (
@@ -99,7 +108,7 @@ const DayCard = ({ day, currency, expandedDays, toggleDay, t }) => {
       </Pressable>
 
       {isExpanded && hasItems && (
-        <View className="border-t border-gray-100 px-4 pb-4">
+        <View className="border-t border-border/70 px-4 pb-4">
           {day.lineItems.map((item) => (
             <LineItem key={item.lineItemId} item={item} currency={currency} t={t} />
           ))}
@@ -123,12 +132,16 @@ const OrderDetails = ({ data, onBack }) => {
   const { orderDetails } = data;
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
       <ScreenHeader
         title={`${t("orders.orderNumber")}${orderDetails.orderNumber}`}
         showBackButton
       />
-      <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
+        showsVerticalScrollIndicator={false}
+      >
         <View className="gap-4">
           <OrderSummaryCard orderDetails={orderDetails} t={t} />
           {orderDetails.weekdayDetails?.map((day) => (

@@ -24,10 +24,10 @@ export function LanguageSelect() {
       <Button
         variant="ghost"
         size="sm"
-        className="h-10 gap-2 rounded-full bg-primary px-3"
+        className="h-10 gap-2 rounded-full border border-border/70 bg-white/90 px-3"
         onPress={() => setOpen(true)}
       >
-        <Globe size={20} color="#fff" />
+        <Globe size={20} color="#019C7F" />
       </Button>
 
       <Modal visible={open} transparent animationType="fade">
@@ -43,9 +43,7 @@ export function LanguageSelect() {
                 const isActive = currentLanguage === item.code;
                 return (
                   <Pressable
-                    className={`flex-row items-center justify-between rounded-lg px-4 py-3 ${
-                      isActive ? "bg-primary-muted" : ""
-                    }`}
+                    className="flex-row items-center justify-between rounded-lg px-4 py-3"
                     onPress={() => changeLanguage(item.code)}
                   >
                     <View className="flex-row items-center gap-2">

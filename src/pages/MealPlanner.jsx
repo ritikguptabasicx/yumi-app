@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 const MealPlanner = () => {
   const { t } = useTranslation();
   return (
-    <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-background" edges={["top", "bottom"]}>
       <ScreenHeader title={t("navigation.mealPlanner")} />
       <MealPlannerContainer />
     </SafeAreaView>

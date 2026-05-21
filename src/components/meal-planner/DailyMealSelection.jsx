@@ -1,4 +1,5 @@
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -39,6 +40,7 @@ const DailyMealSelection = ({
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const { t } = useTranslation();
   const { user } = useUser();
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     if (mealTypes.length > 0 && (!activeMealType || !mealTypes.includes(activeMealType))) {
@@ -120,11 +122,21 @@ const DailyMealSelection = ({
     }
   };
 
+  const ACTION_BAR_HEIGHT = 76;
+
   return (
     <View className="flex-1">
-      <View className="gap-3 px-3 pb-32 sm:gap-4 sm:px-4 sm:pb-28">
-        <View className="px-0 sm:px-2">
-          <Text className="mb-3 text-base font-semibold text-mealText">
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{
+          paddingHorizontal: 16,
+          paddingTop: 14,
+          paddingBottom: ACTION_BAR_HEIGHT + insets.bottom + 16,
+        }}
+        showsVerticalScrollIndicator={false}
+      >
+        <View className="mb-4">
+          <Text className="mb-3 text-base font-bold text-foreground">
             {t("meals.mealCategory")}
           </Text>
           <MealTypeSelector
@@ -139,13 +151,16 @@ const DailyMealSelection = ({
           selectedMeals={selectedMeals[activeMealType] || []}
           mealType={activeMealType}
         />
-      </View>
+      </ScrollView>
 
-      <View className="absolute bottom-0 left-0 right-0 flex-row gap-2 bg-white p-3 shadow-lg sm:gap-4 sm:p-4">
-        <Button variant="outline" className="h-10 flex-1 rounded-lg sm:h-11 sm:rounded-xl" onPress={onBack}>
+      <View
+        className="flex-row gap-3 border-t border-border/70 bg-white px-4 pt-3 shadow-lg"
+        style={{ paddingBottom: Math.max(insets.bottom, 12) }}
+      >
+        <Button variant="outline" className="h-12 flex-1 rounded-xl bg-white" onPress={onBack}>
           {t("actions.back")}
         </Button>
-        <Button className="h-10 flex-1 rounded-lg bg-primary sm:h-11 sm:rounded-xl" onPress={handleNextClick}>
+        <Button className="h-12 flex-1 rounded-xl bg-primary" onPress={handleNextClick}>
           {isAllDaysHandled && isLastDay ? t("orders.checkout") : t("orders.next")}
         </Button>
       </View>

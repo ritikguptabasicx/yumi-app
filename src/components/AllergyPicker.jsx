@@ -3,6 +3,7 @@ import { View, Text, Pressable, Modal, FlatList, TextInput } from "react-native"
 import { Check, ChevronsUpDown, X } from "lucide-react-native";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+
 const AllergyPicker = ({ allergyOptions, selectedAllergies, setSelectedAllergies }) => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");

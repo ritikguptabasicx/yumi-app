@@ -1,15 +1,16 @@
 import { View, Text, Pressable } from "react-native";
 import { useRouter, usePathname } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useUser } from "@/contexts/UserContext";
 import { useChildren } from "@/hooks/useChildren";
+import NotificationButton from "@/components/NotificationButton";
 import { useMemo } from "react";
 
 const ScreenHeader = ({ showBackButton, title }) => {
   const router = useRouter();
   const pathname = usePathname();
+
   const isTabScreen =
     pathname.includes("/(tabs)") ||
     pathname.endsWith("/meal-planner") ||
@@ -17,13 +18,16 @@ const ScreenHeader = ({ showBackButton, title }) => {
     pathname.endsWith("/profile") ||
     pathname === "/(app)" ||
     pathname.endsWith("/(app)");
+
   const isHomePage =
     pathname === "/" ||
     pathname.endsWith("/(app)/(tabs)") ||
     pathname.endsWith("/(app)/(tabs)/") ||
     /\/\(tabs\)\/?$/.test(pathname);
+
   const isMealPlanner = pathname.includes("meal-planner");
   const isOrderSummary = pathname.includes("order-summary");
+
   const { user } = useUser();
   const { children } = useChildren();
 
@@ -34,12 +38,11 @@ const ScreenHeader = ({ showBackButton, title }) => {
 
   const childName = selectedChild
     ? `${selectedChild.firstName} ${selectedChild.lastName}`
-    : "No name Provided";
+    : "No name provided";
 
-  const schoolName = selectedChild?.school?.name || "No school Assigned";
+  const schoolName = selectedChild?.school?.name || "No school assigned";
   const profilePicture = selectedChild?.profilePictureURL;
   const headerTitle = isMealPlanner && !selectedChild ? "Meal Planner" : title;
-
   const showBack = showBackButton ?? !isTabScreen;
 
   const handleBackNavigation = () => {
@@ -53,41 +56,120 @@ const ScreenHeader = ({ showBackButton, title }) => {
   if (isHomePage) return null;
 
   return (
-    <View className="bg-headerBg">
-      {!isMealPlanner && (
-        <View className="flex-row items-center bg-white p-2 shadow-sm">
-          {showBack && (
-            <Button variant="ghost" size="icon" onPress={handleBackNavigation} className="mr-2">
-              <ArrowLeft size={24} color="#0F172A" />
-            </Button>
-          )}
-          <Text className="text-lg font-semibold text-gray-900">{headerTitle}</Text>
-        </View>
-      )}
+    <View
+      style={{
+        backgroundColor: "#fff",
+        borderBottomWidth: 1,
+        borderBottomColor: "#F1F5F9",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.06,
+        shadowRadius: 4,
+        elevation: 3,
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          paddingHorizontal: 8,
+          paddingVertical: 10,
+          minHeight: 56,
+        }}
+      >
+        {/* Back button */}
+        {showBack ? (
+          <Pressable
+            onPress={handleBackNavigation}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            style={({ pressed }) => ({
+              width: 36,
+              height: 36,
+              borderRadius: 10,
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: pressed ? "#F1F5F9" : "transparent",
+              marginRight: 4,
+              flexShrink: 0,
+            })}
+          >
+            <ArrowLeft size={20} color="#374151" strokeWidth={2} />
+          </Pressable>
+        ) : (
+          <View style={{ width: 8 }} />
+        )}
 
-      {isMealPlanner && selectedChild && (
-        <View className="flex-row items-center bg-white px-2 py-3 shadow-sm">
-          {showBack && (
-            <Button variant="ghost" size="icon" onPress={handleBackNavigation} className="mr-2">
-              <ArrowLeft size={24} color="#0F172A" />
-            </Button>
-          )}
-          <Avatar className="h-9 w-9 rounded-full">
-            <AvatarImage source={profilePicture} />
-            <AvatarFallback>{childName.charAt(0)}</AvatarFallback>
-          </Avatar>
-          <View className="ml-3">
-            <Text className="font-semibold capitalize text-gray-900">{childName}</Text>
-            <Text className="text-sm text-gray-500">{schoolName}</Text>
+        {/* Content */}
+        {isMealPlanner && selectedChild ? (
+          <View style={{ flex: 1, flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <View
+              style={{
+                borderRadius: 12,
+                overflow: "hidden",
+                borderWidth: 2,
+                borderColor: "#E8F5F0",
+              }}
+            >
+              <Avatar className="h-9 w-9">
+                <AvatarImage source={profilePicture} />
+                <AvatarFallback
+                  style={{
+                    backgroundColor: "#E8F5F0",
+                  }}
+                >
+                  <Text style={{ color: "#00A76F", fontWeight: "600", fontSize: 14 }}>
+                    {childName.charAt(0).toUpperCase()}
+                  </Text>
+                </AvatarFallback>
+              </Avatar>
+            </View>
+
+            <View style={{ flex: 1 }}>
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontWeight: "600",
+                  color: "#111827",
+                  textTransform: "capitalize",
+                  letterSpacing: -0.2,
+                }}
+                numberOfLines={1}
+              >
+                {childName}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: "#6B7280",
+                  marginTop: 1,
+                  letterSpacing: 0.1,
+                }}
+                numberOfLines={1}
+              >
+                {schoolName}
+              </Text>
+            </View>
           </View>
-        </View>
-      )}
+        ) : (
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{
+                fontSize: 17,
+                fontWeight: "600",
+                color: "#111827",
+                letterSpacing: -0.3,
+              }}
+              numberOfLines={1}
+            >
+              {headerTitle}
+            </Text>
+          </View>
+        )}
 
-      {isMealPlanner && !selectedChild && (
-        <View className="flex-row items-center bg-white p-3 shadow-sm">
-          <Text className="text-lg font-semibold text-gray-900">{headerTitle}</Text>
+        <View style={{ marginLeft: 8 }}>
+          <NotificationButton />
         </View>
-      )}
+      </View>
     </View>
   );
 };

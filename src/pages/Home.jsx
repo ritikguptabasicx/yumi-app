@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, Linking } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
@@ -11,14 +11,14 @@ import AlertBanner from "@/components/AlertBanner";
 import { ParentProfile } from "@/components/ParentProfile";
 import ChildProfileCard from "@/components/ChildProfileCard";
 import AppHeader from "@/components/AppHeader";
-import { ActionCards } from "@/components/ActionCards";
+import { CalendarDays } from "lucide-react-native";
+
 import { useActiveOrder } from "@/hooks/useActiveOrder";
 
 const Home = () => {
   const { t } = useTranslation();
   const { user, setUser } = useUser();
   const router = useRouter();
-  const currentYear = new Date().getFullYear();
   const { data: ordersData, isLoading: loading } = useActiveOrder();
 
   const { data: dashboardData, isLoading: isAlertLoading } = useSWR(
@@ -39,46 +39,55 @@ const Home = () => {
   const alert = dashboardData?.notifications || null;
 
   return (
-    <SafeAreaView className="flex-1 bg-homeBg" edges={["top"]}>
-      <AppHeader />
-      <ScrollView className="flex-1 pb-4" showsVerticalScrollIndicator={false}>
-        <View className="mt-6">
+    <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{ paddingBottom: 104 }}
+        showsVerticalScrollIndicator={false}
+      >
+        <AppHeader />
+        <View className="mt-3">
           <ParentProfile />
         </View>
-        <View className="mt-6">
+
+        <View className="mt-4">
           <ChildProfileCard />
         </View>
-        <View className="mt-8">
+
+        <View className="mt-4">
           <AlertBanner
             isLoading={isAlertLoading}
             title={alert?.title || alert?.[0]?.title}
             message={alert?.message || alert?.[0]?.message}
           />
         </View>
+
         {ordersData?.length > 0 && (
-          <View className="mt-8">
+          <View className="mt-5">
             <SectionHeader
-              title={t("navigation.activeOrder", { count: ordersData.length })}
+              title={t("navigation.activeOrder")}
               actionText={t("common.showAll")}
               onAction={() => router.push("/(app)/(tabs)/order-history")}
             />
             <ActiveOrder orderData={ordersData} isLoading={loading} />
           </View>
         )}
-        <View className="mt-8">
-          <ActionCards />
-        </View>
-        <View className="py-4">
-          <Text className="text-center text-sm text-muted-foreground">
-            {currentYear} {t("ui.developedBy")}{" "}
-            <Text
-              className="font-medium text-primary"
-              onPress={() => Linking.openURL("https://weblike.ro/")}
-            >
-              weblike.ro
-            </Text>
-          </Text>
-        </View>
+
+        {!ordersData?.length ? (
+          <View className="mx-4 mt-5 flex-row items-center gap-3 rounded-2xl bg-white p-4">
+            <View className="h-11 w-11 items-center justify-center rounded-full bg-secondary-muted">
+              <CalendarDays size={21} color="#F37C21" />
+            </View>
+            <View className="min-w-0 flex-1">
+              <Text className="font-bold text-foreground">{t("home.readyTitle")}</Text>
+              <Text className="mt-0.5 text-sm text-muted-foreground">
+                {t("home.readySubtitle")}
+              </Text>
+            </View>
+          </View>
+        ) : null}
+
+        <View className="h-6" />
       </ScrollView>
     </SafeAreaView>
   );
