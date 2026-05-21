@@ -1,13 +1,21 @@
-import { View, Text, ScrollView, Pressable } from "react-native";
+import { View, Text, ScrollView, Pressable, Modal } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
-import { LogOut } from "lucide-react-native";
+import {
+  LogOut,
+  Wallet,
+  Pencil,
+  Info,
+  HelpCircle,
+  Headphones,
+  Globe,
+} from "lucide-react-native";
+import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { ParentProfile } from "@/components/ParentProfile";
-import ChildProfileCard from "@/components/ChildProfileCard";
-import { LanguageSelect } from "@/components/LanguageSelect";
-import QuickLinkCards from "@/components/QuickLinkCards";
-import { Info, HelpCircle, Headphones } from "lucide-react-native";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { ProfileSection, ProfileMenuRow } from "@/components/profile/ProfileMenuRow";
+import { ProfileEditDialog } from "@/components/profile/ProfileEditDialog";
+import { ProfileChildrenSection } from "@/components/profile/ProfileChildrenSection";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,68 +29,129 @@ import {
 import { useUser } from "@/contexts/UserContext";
 
 const Profile = () => {
-  const { t } = useTranslation();
-  const { logout } = useUser();
-  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const { t, i18n } = useTranslation();
+  const { user, logout } = useUser();
+  const router = useRouter();
+  const [showEdit, setShowEdit] = useState(false);
+  const [showLogout, setShowLogout] = useState(false);
+  const [showLanguage, setShowLanguage] = useState(false);
 
-  const quickLinks = [
-    {
-      icon: Info,
-      title: t("quickLinks.about.title"),
-      description: t("quickLinks.about.description"),
-      href: "/(app)/about",
-    },
-    {
-      icon: HelpCircle,
-      title: t("quickLinks.faq.title"),
-      description: t("quickLinks.faq.description"),
-      href: "/(app)/faq",
-    },
-    {
-      icon: Headphones,
-      title: t("quickLinks.support.title"),
-      description: t("quickLinks.support.description"),
-      href: "/(app)/support",
-    },
-  ];
+  const displayName =
+    user?.firstName && user?.lastName
+      ? `${user.firstName} ${user.lastName}`
+      : user?.name || t("profile.guestName");
+
+  const credits = user?.creditsAvailable ?? 0;
+  const currentLang = i18n.language?.split("-")[0] === "en" ? "English" : "Română";
 
   return (
-    <SafeAreaView className="flex-1 bg-homeBg" edges={["top"]}>
-      <View className="flex-row items-center justify-between px-4 py-3">
-        <Text className="text-2xl font-bold text-foreground">{t("navigation.profile")}</Text>
-        <View className="flex-row items-center gap-2">
-          <LanguageSelect />
+    <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 40 }}
+      >
+        {/* Profile hero */}
+        <View className="items-center bg-white px-6 pb-6 pt-4">
+          <Avatar className="mb-3 h-[88px] w-[88px] border-2 border-primary/20">
+            <AvatarImage source={user?.profilePictureURL} />
+            <AvatarFallback className="bg-primary-muted">
+              <Text className="text-2xl font-bold text-primary">
+                {displayName.charAt(0).toUpperCase()}
+              </Text>
+            </AvatarFallback>
+          </Avatar>
+          <Text className="text-xl font-bold text-foreground">{displayName}</Text>
+          <Text className="mt-1 text-sm text-muted-foreground">{user?.emailAddress}</Text>
+          {user?.phone ? (
+            <Text className="mt-0.5 text-sm text-muted-foreground">{user.phone}</Text>
+          ) : null}
           <Pressable
-            onPress={() => setShowConfirmDialog(true)}
-            className="h-10 w-10 items-center justify-center rounded-full bg-primary"
+            onPress={() => setShowEdit(true)}
+            className="mt-4 flex-row items-center gap-1.5 rounded-full border border-primary px-5 py-2 active:bg-primary-muted"
           >
-            <LogOut size={20} color="#fff" />
+            <Pencil size={14} color="#019C7F" />
+            <Text className="text-sm font-semibold text-primary">
+              {t("profile.editProfile")}
+            </Text>
           </Pressable>
         </View>
-      </View>
 
-      <ScrollView
-        className="flex-1"
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 32 }}
-      >
-        <View className="mt-2">
-          <ParentProfile />
-        </View>
-        <View className="mt-6">
-          <ChildProfileCard />
-        </View>
-        <View className="mt-8 px-4">
-          <Text className="mb-3 text-lg font-semibold text-foreground">{t("ui.quickActions")}</Text>
-          <View className="gap-3">
-            {quickLinks.map((link) => (
-              <QuickLinkCards key={link.title} {...link} />
-            ))}
+        <View className="px-4 pt-5">
+          {/* Wallet / credits */}
+          <View className="mb-5 flex-row items-center overflow-hidden rounded-2xl bg-primary px-4 py-4">
+            <View className="mr-3 h-11 w-11 items-center justify-center rounded-full bg-white/20">
+              <Wallet size={22} color="#fff" />
+            </View>
+            <View className="flex-1">
+              <Text className="text-xs font-medium uppercase tracking-wide text-white/80">
+                {t("profile.wallet")}
+              </Text>
+              <Text className="mt-0.5 text-lg font-bold text-white">
+                {credits > 0
+                  ? `${credits} ${t("profile.creditsLabel")}`
+                  : t("profile.NoAvailableCredits")}
+              </Text>
+            </View>
           </View>
+
+          {/* Children */}
+          <View className="mb-5">
+            <Text className="mb-2 px-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              {t("profile.childrenSection")}
+            </Text>
+            <ProfileChildrenSection />
+          </View>
+
+          {/* Help */}
+          <ProfileSection title={t("profile.helpSection")}>
+            <ProfileMenuRow
+              icon={Info}
+              label={t("quickLinks.about.title")}
+              subtitle={t("quickLinks.about.description")}
+              onPress={() => router.push("/(app)/about")}
+            />
+            <ProfileMenuRow
+              icon={HelpCircle}
+              label={t("quickLinks.faq.title")}
+              subtitle={t("quickLinks.faq.description")}
+              onPress={() => router.push("/(app)/faq")}
+            />
+            <ProfileMenuRow
+              icon={Headphones}
+              label={t("quickLinks.support.title")}
+              subtitle={t("quickLinks.support.description")}
+              onPress={() => router.push("/(app)/support")}
+              isLast
+            />
+          </ProfileSection>
+
+          {/* Preferences */}
+          <ProfileSection title={t("profile.preferencesSection")}>
+            <ProfileMenuRow
+              icon={Globe}
+              label={t("profile.language")}
+              subtitle={currentLang}
+              onPress={() => setShowLanguage(true)}
+            />
+            <ProfileMenuRow
+              icon={LogOut}
+              label={t("navigation.logout")}
+              onPress={() => setShowLogout(true)}
+              destructive
+              isLast
+            />
+          </ProfileSection>
         </View>
       </ScrollView>
 
-      <AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
+      {/* Language modal trigger — reuse LanguageSelect in a hidden wrapper */}
+      {showLanguage ? (
+        <LanguageSelectModal onClose={() => setShowLanguage(false)} />
+      ) : null}
+
+      <ProfileEditDialog open={showEdit} onOpenChange={setShowEdit} />
+
+      <AlertDialog open={showLogout} onOpenChange={setShowLogout}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>{t("confirmations.areYouSure")}</AlertDialogTitle>
@@ -91,12 +160,12 @@ const Profile = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onPress={() => setShowConfirmDialog(false)}>
+            <AlertDialogCancel onPress={() => setShowLogout(false)}>
               {t("actions.cancel")}
             </AlertDialogCancel>
             <AlertDialogAction
               onPress={() => {
-                setShowConfirmDialog(false);
+                setShowLogout(false);
                 logout();
               }}
               className="bg-secondary"
@@ -109,5 +178,49 @@ const Profile = () => {
     </SafeAreaView>
   );
 };
+
+/** Opens language picker when profile row is tapped */
+function LanguageSelectModal({ onClose }) {
+  const { i18n, t } = useTranslation();
+  const languages = [
+    { code: "ro", label: "Română", flag: "🇷🇴" },
+    { code: "en", label: "English", flag: "🇬🇧" },
+  ];
+
+  return (
+    <Modal visible transparent animationType="slide" onRequestClose={onClose}>
+      <Pressable className="flex-1 justify-end bg-overlay" onPress={onClose}>
+      <Pressable onPress={(e) => e.stopPropagation()} className="rounded-t-3xl bg-white px-4 pb-10 pt-4">
+        <Text className="mb-4 text-center text-lg font-semibold text-foreground">
+          {t("profile.language")}
+        </Text>
+        {languages.map((lang) => {
+          const active = (i18n.language?.split("-")[0] || "ro") === lang.code;
+          return (
+            <Pressable
+              key={lang.code}
+              onPress={() => {
+                i18n.changeLanguage(lang.code);
+                onClose();
+              }}
+              className={`mb-2 flex-row items-center justify-between rounded-xl px-4 py-3.5 ${
+                active ? "bg-primary-muted" : "bg-muted/40"
+              }`}
+            >
+              <View className="flex-row items-center gap-3">
+                <Text className="text-xl">{lang.flag}</Text>
+                <Text className={`font-medium ${active ? "text-primary" : "text-foreground"}`}>
+                  {lang.label}
+                </Text>
+              </View>
+              {active ? <Text className="font-bold text-primary">✓</Text> : null}
+            </Pressable>
+          );
+        })}
+      </Pressable>
+      </Pressable>
+    </Modal>
+  );
+}
 
 export default Profile;

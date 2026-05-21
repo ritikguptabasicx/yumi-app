@@ -1,6 +1,5 @@
 import { View, Text, ScrollView, Pressable, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Info, HelpCircle, Headphones } from "lucide-react-native";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import useSWR from "swr";
@@ -11,7 +10,6 @@ import SectionHeader from "@/components/SectionHeader";
 import AlertBanner from "@/components/AlertBanner";
 import { ParentProfile } from "@/components/ParentProfile";
 import ChildProfileCard from "@/components/ChildProfileCard";
-import QuickLinkCards from "@/components/QuickLinkCards";
 import AppHeader from "@/components/AppHeader";
 import { ActionCards } from "@/components/ActionCards";
 import { useActiveOrder } from "@/hooks/useActiveOrder";
@@ -39,12 +37,6 @@ const Home = () => {
   );
 
   const alert = dashboardData?.notifications || null;
-
-  const quickLinks = [
-    { icon: Info, title: t("quickLinks.about.title"), description: t("quickLinks.about.description"), href: "/(app)/about" },
-    { icon: HelpCircle, title: t("quickLinks.faq.title"), description: t("quickLinks.faq.description"), href: "/(app)/faq" },
-    { icon: Headphones, title: t("quickLinks.support.title"), description: t("quickLinks.support.description"), href: "/(app)/support" },
-  ];
 
   return (
     <SafeAreaView className="flex-1 bg-homeBg" edges={["top"]}>
@@ -75,16 +67,6 @@ const Home = () => {
         )}
         <View className="mt-8">
           <ActionCards />
-        </View>
-        <View className="mt-8">
-          <SectionHeader title={t("ui.quickActions")} />
-          <View className="flex-row flex-wrap gap-3 px-4">
-            {quickLinks.map((link) => (
-              <View key={link.title} className="flex-1">
-                <QuickLinkCards {...link} />
-              </View>
-            ))}
-          </View>
         </View>
         <View className="py-4">
           <Text className="text-center text-sm text-muted-foreground">

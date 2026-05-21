@@ -297,12 +297,21 @@
     "viewOrderHistory": "Vizualizare Istoric Comenzi"
   },
   "profile": {
+    "activeChild": "Copil activ",
     "AvailableCredits": "Credite Disponibile",
+    "childrenSection": "Copiii tăi",
+    "creditsLabel": "credite",
     "editProfile": "Editează profilul",
     "email": "Email",
+    "guestName": "Părinte",
     "helloUser": "Salut, ",
+    "helpSection": "Ajutor și suport",
+    "language": "Limbă",
     "NoAvailableCredits": "Nu există credite disponibile",
-    "phone": "Telefon"
+    "phone": "Telefon",
+    "preferencesSection": "Preferințe",
+    "switchChild": "Schimbă copilul",
+    "wallet": "Portofel mese"
   },
   "quickLinks": {
     "about": {

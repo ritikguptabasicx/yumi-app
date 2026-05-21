@@ -302,12 +302,21 @@
     "title": "Call support"
   },
   "profile": {
+    "activeChild": "Active child",
     "AvailableCredits": "Available Credits",
+    "childrenSection": "Your children",
+    "creditsLabel": "credits",
     "editProfile": "Edit Profile",
     "email": "Email",
+    "guestName": "Parent",
     "helloUser": "Hello, ",
-    "NoAvailableCredits": "No Credits Available",
-    "phone": "Phone"
+    "helpSection": "Help & support",
+    "language": "Language",
+    "NoAvailableCredits": "No credits available",
+    "phone": "Phone",
+    "preferencesSection": "Preferences",
+    "switchChild": "Switch child",
+    "wallet": "Meal wallet"
   },
   "quickLinks": {
     "about": {
