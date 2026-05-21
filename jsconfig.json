@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src", "app", "global.css", "nativewind-env.d.ts"],
+  "exclude": ["node_modules"]
+}

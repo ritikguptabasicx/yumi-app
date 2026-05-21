@@ -1,0 +1,396 @@
+{
+  "actions": {
+    "adding": "Se adaugă...",
+    "back": "Înapoi",
+    "cancel": "Anulează",
+    "close": "Închide",
+    "proceed": "Continuă",
+    "saveChanges": "Salvează Modificările",
+    "saving": "Se salvează...",
+    "stay": "Rămâi",
+    "updating": "Se actualizează...",
+    "uploading": "Se încarcă..."
+  },
+  "activeOrder": {
+    "cancelFailed": "{{day}} ke liye active order cancel karne mein fail ho gaye.",
+    "cancellation": "Masa a fost anulată cu succes",
+    "order": "Comanda",
+    "totalAmount": "Valoare totală"
+  },
+  "app": {
+    "description": "Mese de înaltă calitate pentru sănătatea și fericirea copilului dumneavoastră.",
+    "welcome": "Bine ați venit la aplicația Top Catering"
+  },
+  "auth": {
+    "agreeToTerms": "Sunt de acord cu",
+    "backToSignIn": "Înapoi la Autentificare",
+    "checkEmailDescription": "Am trimis instrucțiuni de resetare a parolei la adresa dvs. de email.Verificați-vă email-ul",
+    "confirmNewPassword": "Confirmați parola nouă",
+    "confirmPassword": "Confirmare Parolă",
+    "createAccount": "Creează-ți contul Yumi",
+    "email": "Email",
+    "emailExists": "Există deja un cont cu această adresă de e-mail. Vă rugăm să accesați secțiunea de conectare.",
+    "emailSent": "Email Trimis!",
+    "emailVerificationRequired": "Verificare Email Necesară",
+    "emailVerificationSent": "Ți-am trimis un email de verificare. Te rugăm să verifici căsuța de email și să confirmi adresa.",
+    "enterEmail": "Introduceți adresa de email",
+    "enterFirstName": "Introduceți prenumele",
+    "enterLastName": "Introduceți numele",
+    "enterNewPassword": "Introduceți parola nouă",
+    "enterPassword": "Introduceți parola",
+    "firstName": "Prenume",
+    "forgotPassword": "Ați uitat parola?",
+    "forgotPasswordDescription": "Vă rugăm să introduceți adresa de email pentru resetarea parolei",
+    "getStarted": "Să începem",
+    "hasAccount": "Ai deja un cont?",
+    "hasNumber": "Conține număr (0-9)",
+    "hasSpecialChar": "Conține caracter special (!@#$%^&*)",
+    "hasUpperCase": "Conține literă mare (A-Z)",
+    "haveAccount": "Ai deja un cont?",
+    "invalidCredentials": "Credențiale invalide",
+    "invalidToken": "Token invalid sau lipsă",
+    "lastName": "Nume",
+    "loginAgreement": "Continuând, ești de acord cu",
+    "loginFailed": "Conectarea a eșuat. Vă rugăm să încercați din nou mai târziu.",
+    "loginTitle": "Conectează-te la contul tău Yumi",
+    "minLength": "Cel puțin 8 caractere",
+    "newPassword": "Parolă Nouă",
+    "noAccount": "Nu ai un cont?",
+    "password": "Parolă",
+    "passwordMismatch": "Parolele nu se potrivesc",
+    "passwordRequirements": "Parola nu îndeplinește cerințele minime.",
+    "passwordResetEmailFailed": "Nu s-a putut trimite e-mailul de resetare a parolei",
+    "passwordResetEmailSent": "Email-ul de resetare a parolei a fost trimis cu succes!",
+    "passwordResetFailed": "Resetarea parolei a eșuat",
+    "passwordResetSuccess": "Parola a fost resetată cu succes",
+    "passwordResetSuccessDescription": "Acum vă puteți conecta cu noua parolă.",
+    "privacyPolicy": "Politica de Confidențialitate",
+    "rememberMe": "Ține-mă minte",
+    "requestNewLink": "Solicită un nou link",
+    "reset": "Resetare Parolă",
+    "resetLinkExpired": "Link-ul de resetare a expirat",
+    "resetLinkExpiredDescription": "Link-ul de resetare a parolei este invalid sau a expirat. Vă rugăm să solicitați unul nou.",
+    "resetPassword": "Resetează Parola",
+    "resetPasswordDescription": "Vă rugăm să introduceți noua parolă mai jos.",
+    "saving": "Se salvează...",
+    "sending": "Se trimite...",
+    "signIn": "Conectare",
+    "signingUp": "Se înregistrează...",
+    "signInProcessing": "Se conectează...",
+    "signUp": "Înregistrare",
+    "signUpError": "A apărut o eroare în timpul înregistrării. Vă rugăm să încercați mai târziu.",
+    "signUpFailed": "Înregistrarea a eșuat. Vă rugăm să încercați din nou.",
+    "signUpProcessing": "Se înregistrează...",
+    "successSignIn": "Conectat cu succes",
+    "termsOfService": "Termenii și Condițiile",
+    "verifyEmail": "Verificare email necesară",
+    "verifyEmailMessage": "Un email a fost trimis pentru a verifica și finaliza procesul de înregistrare, verificați inbox-ul.",
+    "welcomeBack": "Bine ai revenit",
+    "welcomeTo": "Bine ai venit la",
+    "completeRegistration": "Completează înregistrarea"
+  },
+  "child": {
+    "addChild": "Adaugă copil",
+    "addNewChild": "Adaugă copil nou",
+    "addYourChildHeading": "Adăugați copilul dvs.",
+    "childAddedSuccess": "Copil adăugat cu succes",
+    "childSetupSubtitle": "pentru planificarea săptămânală a meselor",
+    "childSetupTitle": "Să configurăm profilul copilului tău",
+    "class": "Clasă",
+    "editChildProfile": "Editează profilul copilului",
+    "enterFirstName": "Introduceți prenumele",
+    "enterLastName": "Introduceți numele",
+    "firstName": "Prenume",
+    "grade": "Nivel",
+    "lastName": "Nume",
+    "loadingChildren": "Se încarcă copiii...",
+    "myKids": "Copiii mei",
+    "noChildrenFound": "Niciun copil găsit",
+    "noClassesAvailable": "Nu există clase disponibile",
+    "noSchoolAssigned": "Nicio școală atribuită",
+    "personalizedMeals": "Mese personalizate pentru copilul dvs.",
+    "school": "Școală",
+    "selectChild": "Selectează un copil pentru a vedea profilul său",
+    "selectClass": "Selectați Clasa",
+    "selectSchool": "Selectați Școala",
+    "switchChildProfile": "Schimbă profilul copilului",
+    "teacherName": "Numele Profesorului",
+    "updateChildDetails": "Actualizează informațiile copilului tău"
+  },
+  "common": {
+    "backToHome": "Înapoi la Acasă",
+    "cancel": "Anulează",
+    "showAll": "Vezi tot"
+  },
+  "confirmations": {
+    "areYouSure": "Ești sigur?",
+    "logoutConfirmation": "Doriți să vă deconectați?",
+    "noMealSelectedConfirmation": "Confirmare - nicio masă selectată"
+  },
+  "emailVerification": {
+    "backToSignup": "Înapoi la Înregistrare",
+    "expiredMessage": "Linkul de verificare a expirat. Te rugăm să te înregistrezi din nou pentru a primi un nou link de verificare.",
+    "expiredTitle": "Link expirat",
+    "failedMessage": "Nu am putut verifica emailul. Linkul de verificare poate fi invalid.",
+    "failedTitle": "Verificare eșuată",
+    "signIn": "Autentificare",
+    "successMessage": "Emailul tău a fost verificat. Acum te poți conecta la contul tău.",
+    "successTitle": "Email verificat cu succes!",
+    "verifying": "Verificăm emailul..."
+  },
+  "errors": {
+    "failedToUploadImage": "Încărcarea imaginii a eșuat.",
+    "imageSizeLimit": "Dimensiunea imaginii trebuie să fie mai mică de 5MB",
+    "invalidUserOrChild": "Date de utilizator sau copil nevalide",
+    "missingRequiredInfo": "Lipsesc informații necesare pentru a sări ziua",
+    "pleaseUploadImage": "Te rugăm să încarci un fișier de imagine",
+    "somethingWentWrong": "Ceva nu a mers bine."
+  },
+  "faq": {
+    "description": "Găsiți răspunsuri la întrebările frecvente despre serviciul nostru de catering.",
+    "noFaqsFound": "Nu au fost găsite întrebări frecvente",
+    "noFaqsMessage": "Momentan nu există întrebări frecvente disponibile.",
+    "title": "Întrebări Frecvente"
+  },
+  "meals": {
+    "daySkipped": "Ziua a fost omisă cu succes",
+    "managePastOrders": "Vizualizați și gestionați comenzile dvs. anterioare",
+    "mealCategory": "Categoria mesei",
+    "mealInfo": "Informații masă",
+    "noMealsMessage": "Nu există nici un meniu disponibil în acest moment! Vă rugăm reveniți în intervalul menționat.",
+    "noMealsScheduled": "Nu sunt programate mese pentru această zi",
+    "scheduleMeal": "Plasați comanda",
+    "selectAtLeastOneMeal": "Vă rugăm să selectați cel puțin o masă înainte de a continua comanda",
+    "skipMeal": "Omite masa",
+    "week": "Săptămână",
+    "contains": "Conține:"
+  },
+  "media": {
+    "uploadPicture": "Încarcă Poza"
+  },
+  "months": {
+    "april": {
+      "full": "Aprilie",
+      "short": "Apr"
+    },
+    "august": {
+      "full": "August",
+      "short": "Aug"
+    },
+    "december": {
+      "full": "Decembrie",
+      "short": "Dec"
+    },
+    "february": {
+      "full": "Februarie",
+      "short": "Feb"
+    },
+    "january": {
+      "full": "Ianuarie",
+      "short": "Ian"
+    },
+    "july": {
+      "full": "Iulie",
+      "short": "Iul"
+    },
+    "june": {
+      "full": "Iunie",
+      "short": "Iun"
+    },
+    "march": {
+      "full": "Martie",
+      "short": "Mar"
+    },
+    "may": {
+      "full": "Mai",
+      "short": "Mai"
+    },
+    "november": {
+      "full": "Noiembrie",
+      "short": "Noi"
+    },
+    "october": {
+      "full": "Octombrie",
+      "short": "Oct"
+    },
+    "september": {
+      "full": "Septembrie",
+      "short": "Sep"
+    }
+  },
+  "navigation": {
+    "aboutApp": "Despre aplicație",
+    "activeOrder": "Comandă activă",
+    "childProfile": "Profil copil",
+    "faq": "Întrebări frecvente",
+    "frequentlyAskedQuestions": "Întrebări frecvente",
+    "home": "Acasă",
+    "logout": "Deconectare",
+    "mealPlanner": "Planificator mese",
+    "notifications": "Notificări",
+    "orderHistory": "Istoric comenzi",
+    "profile": "Profil",
+    "parentProfile": "Profil părinte",
+    "support": "Suport"
+  },
+  "notFound": {
+    "goHome": "Du-te la pagina principală",
+    "pageNotFound": "Ups! Pagina nu a fost găsită",
+    "pageUnavailable": "Pagina pe care o căutați ar putea fi eliminată sau este temporar indisponibilă."
+  },
+  "orders": {
+    "add": "Adaugă",
+    "addComments": "Adaugă comentariu",
+    "billingSummary": "Rezumat facturare",
+    "cancel": "Anula",
+    "cancelled": "Anulat",
+    "cancelMealDescription": "Sigur doriți să anulați această masă? Această acțiune nu poate fi anulată.",
+    "cancelMealTitle": "Anulați masa",
+    "checkout": "Finalizare",
+    "comments": "Comentarii",
+    "confirmCancellation": "Confirmați anularea",
+    "credits": "Credite",
+    "discount": "Reducere",
+    "grandTotal": "Total General",
+    "next": "Următorul",
+    "noMealsForDay": "Nicio masă comandată pentru această zi",
+    "noOrderFound": "Nicio comandă găsită",
+    "noOrdersMessage": "Nu ați plasat nicio comandă încă.",
+    "noOrderSummaryData": "Nu există informații despre această comandă.",
+    "noOrdersYet": "Nicio comandă încă",
+    "notAvailable": "N/A",
+    "orderDate": "Data comenzii",
+    "orderDetailsNotAvailable": "Detaliile comenzii nu sunt disponibile.",
+    "ordered": "Comandat",
+    "orderedDate": "Data comenzii",
+    "OrderNow": "Comandă acum",
+    "orderNumber": "Comanda #",
+    "orderProcessedSuccessfully": "Comanda a fost procesată cu succes",
+    "orderSummary": "Rezumatul comenzii",
+    "paymentError": "Procesarea plății a eșuat. Vă rugăm să încercați din nou.",
+    "payNow": "Plătește acum",
+    "processingOrder": "Se procesează comanda...",
+    "processingPayment": "Procesarea plății...",
+    "quantity": "Cantitate",
+    "redirectingToPayment": "Redirecționare către gateway-ul de plată...",
+    "remove": "Șterge",
+    "skipped": "Sarit",
+    "subtotal": "Subtotal",
+    "tax": "TVA",
+    "total": "Total de plătit",
+    "totalPrice": "Preț total"
+  },
+  "payments": {
+    "amount": "Suma",
+    "amountPaid": "Suma Plătită",
+    "backToHome": "Înapoi la Pagina Principală",
+    "failureMessage": "Am întâmpinat o problemă la procesarea plății dvs.",
+    "failureTitle": "Plată Eșuată",
+    "invoiceId": "ID Factură",
+    "pageTitle": "Starea Plății",
+    "status": "Stare",
+    "successMessage": "Tranzacția dvs. a fost finalizată cu succes",
+    "successTitle": "Plată Reușită!",
+    "transactionId": "ID Tranzacție",
+    "transactionTime": "Ora Tranzacției",
+    "tryAgain": "Încercați din nou",
+    "viewOrderHistory": "Vizualizare Istoric Comenzi"
+  },
+  "profile": {
+    "AvailableCredits": "Credite Disponibile",
+    "editProfile": "Editează profilul",
+    "email": "Email",
+    "helloUser": "Salut, ",
+    "NoAvailableCredits": "Nu există credite disponibile",
+    "phone": "Telefon"
+  },
+  "quickLinks": {
+    "about": {
+      "description": "Despre Aplicație",
+      "title": "Despre"
+    },
+    "faq": {
+      "description": "Întrebări comune",
+      "title": "Întrebări Frecvente"
+    },
+    "support": {
+      "description": "Ajutor și asistență",
+      "title": "Suport"
+    }
+  },
+  "status": {
+    "childSwitched": "Profilul copilului a fost schimbat cu succes",
+    "fetchOrderDetailsFailed": "Nu s-au putut prelua detaliile comenzii.",
+    "fetchOrderHistoryFailed": "Nu s-a putut încărca istoricul comenzilor. Vă rugăm să încercați din nou mai târziu.",
+    "noNotifications": "Nu există notificări",
+    "profilePictureUpdated": "Fotografia de profil a fost actualizată cu succes",
+    "profileUpdated": "Profilul a fost actualizat cu succes",
+    "requestError": "A apărut o eroare în timpul procesării cererii",
+    "updateFailed": "Actualizarea profilului a eșuat. Vă rugăm să încercați din nou."
+  },
+  "support": {
+    "emailSection": {
+      "action": "Trimite",
+      "description": "Primești răspuns în 24 de ore",
+      "title": "Suport prin email"
+    },
+    "feedback": "Ne plac întrebările și feedback-ul și suntem întotdeauna bucuroși să ajutăm!",
+    "phoneSection": {
+      "action": "Sună",
+      "description": "Luni–Vineri, 9:00–18:00",
+      "title": "Suport telefonic"
+    },
+    "reachTeam": "Contactează Echipa"
+  },
+  "ui": {
+    "developedBy": "Dezvoltat de",
+    "quickActions": "Alte legături",
+    "seeAll": "Vezi tot"
+  },
+  "validation": {
+    "classRequired": "Clasa este obligatorie",
+    "emailRequired": "Emailul este obligatoriu",
+    "firstNameMaxLength": "Prenumele trebuie să aibă mai puțin de 50 de caractere",
+    "firstNameMinLength": "Prenumele trebuie să aibă cel puțin 2 caractere",
+    "firstNameRequired": "Prenumele este obligatoriu",
+    "invalidEmail": "Vă rugăm să introduceți o adresă de email validă",
+    "invalidPhone": "Vă rugăm să introduceți un număr de telefon valid (10 cifre)",
+    "lastNameMaxLength": "Numele trebuie să aibă mai puțin de 50 de caractere",
+    "lastNameMinLength": "Numele trebuie să aibă cel puțin 2 caractere",
+    "lastNameRequired": "Numele este obligatoriu",
+    "passwordRequired": "Parola este obligatorie",
+    "pleaseFixErrors": "Vă rugăm să corectați erorile înainte de a salva",
+    "requiredField": "Obligatoriu",
+    "schoolRequired": "Școala este obligatorie"
+  },
+  "weekdays": {
+    "friday": {
+      "full": "Vineri",
+      "short": "VIN"
+    },
+    "monday": {
+      "full": "Luni",
+      "short": "LUN"
+    },
+    "saturday": {
+      "full": "Sâmbătă",
+      "short": "SÂM"
+    },
+    "sunday": {
+      "full": "Duminică",
+      "short": "DUM"
+    },
+    "thursday": {
+      "full": "Joi",
+      "short": "JOI"
+    },
+    "tuesday": {
+      "full": "Marți",
+      "short": "MAR"
+    },
+    "wednesday": {
+      "full": "Miercuri",
+      "short": "MIE"
+    }
+  }
+}

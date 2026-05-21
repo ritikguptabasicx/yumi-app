@@ -1,0 +1,394 @@
+{
+  "actions": {
+    "adding": "Adding...",
+    "back": "Back",
+    "cancel": "Cancel",
+    "close": "Close",
+    "proceed": "Proceed",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "stay": "Stay",
+    "updating": "Updating...",
+    "uploading": "Uploading..."
+  },
+  "activeOrder": {
+    "cancelFailed": "Failed to cancel active order for {{day}}.",
+    "cancellation": "Meal cancelled successfully",
+    "order": "Order",
+    "totalAmount": "Total Amount"
+  },
+  "app": {
+    "description": "High-quality meals for your child's health and happiness.",
+    "welcome": "Welcome to Top Catering App"
+  },
+  "auth": {
+    "agreeToTerms": "I agree to the",
+    "backToSignIn": "Back to Sign In",
+    "checkEmailDescription": "We've sent password reset instructions to your email address. Please check your email",
+    "confirmNewPassword": "Confirm new password",
+    "confirmPassword": "Confirm Password",
+    "createAccount": "Create your Yumi account",
+    "email": "Email",
+    "emailExists": "There is already an account with this email address. Please go to the sign-in.",
+    "emailSent": "Email Sent!",
+    "emailVerificationRequired": "Email Verification Required",
+    "emailVerificationSent": "We've sent you a verification email. Please check your inbox and verify your email address.",
+    "enterEmail": "Enter your email address",
+    "enterFirstName": "Enter your first name",
+    "enterLastName": "Enter your last name",
+    "enterNewPassword": "Enter new password",
+    "enterPassword": "Enter your password",
+    "firstName": "First Name",
+    "forgotPassword": "Forgot Password?",
+    "forgotPasswordDescription": "Please enter your email address to reset the password",
+    "getStarted": "Let's Get Started",
+    "hasAccount": "Already have an account?",
+    "hasNumber": "Contains number (0-9)",
+    "hasSpecialChar": "Contains special character (!@#$%^&*)",
+    "hasUpperCase": "Contains uppercase letter (A-Z)",
+    "haveAccount": "Already have an account?",
+    "invalidCredentials": "Invalid credentials",
+    "invalidToken": "Invalid or missing token",
+    "lastName": "Last Name",
+    "loginAgreement": "By continuing, you agree to the",
+    "loginFailed": "Login failed. Please try again later.",
+    "loginTitle": "Log in to your Yumi account",
+    "minLength": "At least 8 characters long",
+    "newPassword": "New Password",
+    "noAccount": "Don't have an account?",
+    "password": "Password",
+    "passwordMismatch": "Passwords do not match",
+    "passwordRequirements": "Password does not meet minimum requirements.",
+    "passwordResetEmailFailed": "Failed to send password reset email",
+    "passwordResetEmailSent": "Password reset email sent successfully!",
+    "passwordResetFailed": "Failed to reset password",
+    "passwordResetSuccess": "Password Reset Successfully",
+    "passwordResetSuccessDescription": "You can now log in with your new password.",
+    "privacyPolicy": "Privacy Policy",
+    "rememberMe": "Remember Me",
+    "requestNewLink": "Request New Reset Link",
+    "reset": "Reset Password",
+    "resetLinkExpired": "Reset Link Expired",
+    "resetLinkExpiredDescription": "The password reset link you used is invalid or has expired. Please request a new one.",
+    "resetPassword": "Reset Password",
+    "resetPasswordDescription": "Please enter your new password below.",
+    "saving": "Saving...",
+    "sending": "Sending...",
+    "signIn": "Sign In",
+    "signingUp": "Signing Up...",
+    "signInProcessing": "Signing in...",
+    "signUp": "Sign Up",
+    "signUpError": "An error occurred during sign up. Please try again later.",
+    "signUpFailed": "Sign up failed. Please try again.",
+    "signUpProcessing": "Signing up...",
+    "successSignIn": "Successfully Signed In",
+    "termsOfService": "Terms of Service",
+    "verifyEmail": "Email Verification Required",
+    "verifyEmailMessage": "An email has been sent to verify and complete the sign up process, check your inbox for the same.",
+    "welcomeBack": "Welcome back",
+    "welcomeTo": "Welcome to",
+    "completeRegistration": "Complete Registration"
+  },
+  "child": {
+    "addChild": "Add Child",
+    "addNewChild": "Add New Child",
+    "addYourChildHeading": "Add your child",
+    "childAddedSuccess": "Child added successfully",
+    "childSetupSubtitle": "for weekly meal planning",
+    "childSetupTitle": "Let's set up your child's profile",
+    "class": "Class",
+    "editChildProfile": "Edit Child Profile",
+    "enterFirstName": "Enter first name",
+    "enterLastName": "Enter last name",
+    "firstName": "First Name",
+    "grade": "Grade",
+    "lastName": "Last Name",
+    "loadingChildren": "Loading children...",
+    "myKids": "My Kids",
+    "noChildrenFound": "No children found",
+    "noClassesAvailable": "No classes available",
+    "noSchoolAssigned": "No school assigned",
+    "personalizedMeals": "Personalized meals for your child",
+    "school": "School",
+    "selectChild": "Select a child to view their profile",
+    "selectClass": "Select Class",
+    "selectSchool": "Select School",
+    "switchChildProfile": "Switch Child Profile",
+    "teacherName": "Teacher Name",
+    "updateChildDetails": "Update your child's information"
+  },
+  "common": {
+    "backToHome": "Back to Home",
+    "cancel": "Cancel",
+    "showAll": "Show All"
+  },
+  "confirmations": {
+    "areYouSure": "Are you sure?",
+    "logoutConfirmation": "Do you want to logout?",
+    "noMealSelectedConfirmation": "No meal selected confirmation"
+  },
+  "emailVerification": {
+    "backToSignup": "Back to Sign Up",
+    "expiredMessage": "The verification link has expired. Please sign up again to receive a new verification link.",
+    "expiredTitle": "Link Expired",
+    "failedMessage": "We couldn't verify your email. The verification link might be invalid.",
+    "failedTitle": "Verification Failed",
+    "signIn": "Sign In",
+    "successMessage": "Your email has been verified. You can now sign in to your account.",
+    "successTitle": "Email Verified Successfully!",
+    "verifying": "Verifying your email..."
+  },
+  "errors": {
+    "failedToUploadImage": "Failed to upload image.",
+    "imageSizeLimit": "Image size should be less than 5MB",
+    "invalidUserOrChild": "Invalid user or child data",
+    "missingRequiredInfo": "Missing required information",
+    "pleaseUploadImage": "Please upload an image file",
+    "somethingWentWrong": "Something went wrong"
+  },
+  "faq": {
+    "description": "Find answers to frequently asked questions about our meal service.",
+    "noFaqsFound": "No FAQs Found",
+    "noFaqsMessage": "There are no FAQs available at the moment.",
+    "title": "Frequently Asked Questions"
+  },
+  "meals": {
+    "daySkipped": "Day has been skipped successfully",
+    "managePastOrders": "View and manage your past orders",
+    "mealCategory": "Meal Category",
+    "mealInfo": "Meal Info",
+    "noMealsMessage": "There is no menu available at this time! Please come back within the specified time frame.",
+    "noMealsScheduled": "No meals scheduled for this day",
+    "scheduleMeal": "Schedule Meal",
+    "selectAtLeastOneMeal": "Please select at least one meal before proceeding to checkout",
+    "skipMeal": "Skip Meal",
+    "week": "Week",
+    "contains": "Contains:"
+  },
+  "media": {
+    "uploadPicture": "Upload Picture"
+  },
+  "months": {
+    "april": {
+      "full": "April",
+      "short": "Apr"
+    },
+    "august": {
+      "full": "August",
+      "short": "Aug"
+    },
+    "december": {
+      "full": "December",
+      "short": "Dec"
+    },
+    "february": {
+      "full": "February",
+      "short": "Feb"
+    },
+    "january": {
+      "full": "January",
+      "short": "Jan"
+    },
+    "july": {
+      "full": "July",
+      "short": "Jul"
+    },
+    "june": {
+      "full": "June",
+      "short": "Jun"
+    },
+    "march": {
+      "full": "March",
+      "short": "Mar"
+    },
+    "may": {
+      "full": "May",
+      "short": "May"
+    },
+    "november": {
+      "full": "November",
+      "short": "Nov"
+    },
+    "october": {
+      "full": "October",
+      "short": "Oct"
+    },
+    "september": {
+      "full": "September",
+      "short": "Sep"
+    }
+  },
+  "navigation": {
+    "aboutApp": "About App",
+    "activeOrder": "Active Order",
+    "childProfile": "Child Profile",
+    "faq": "FAQ",
+    "frequentlyAskedQuestions": "Frequently Asked questions",
+    "home": "Home",
+    "logout": "Logout",
+    "mealPlanner": "Meal Planner",
+    "notifications": "Notifications",
+    "orderHistory": "Order History",
+    "profile": "Profile",
+    "parentProfile": "Parent Profile",
+    "support": "Support"
+  },
+  "notFound": {
+    "goHome": "Go to Home",
+    "pageNotFound": "Oops! Page Not Found",
+    "pageUnavailable": "The page you are looking for might have been removed or is temporarily unavailable."
+  },
+  "orders": {
+    "add": "Add",
+    "addComments": "Add Comment",
+    "billingSummary": "Billing Summary",
+    "cancel": "Cancel",
+    "cancelled": "Cancelled",
+    "cancelMealDescription": "Are you sure you want to cancel this meal? This action cannot be undone.",
+    "cancelMealTitle": "Cancel Meal",
+    "checkout": "Checkout",
+    "comments": "Comments",
+    "confirmCancellation": "Confirm Cancellation",
+    "credits": "Credits",
+    "discount": "Discount",
+    "grandTotal": "Grand Total",
+    "next": "Next",
+    "noMealsForDay": "No meals ordered for this day",
+    "noOrderFound": "No Order Found",
+    "noOrdersMessage": "You haven't placed any orders yet.",
+    "noOrderSummaryData": "No order information available.",
+    "noOrdersYet": "No Orders Yet",
+    "notAvailable": "N/A",
+    "orderDate": "Order Date",
+    "orderDetailsNotAvailable": "The order details are not available.",
+    "ordered": "Ordered",
+    "orderedDate": "Ordered Date",
+    "OrderNow": "Order Now",
+    "orderNumber": "Order #",
+    "orderProcessedSuccessfully": "Order processed successfully",
+    "orderSummary": "Order Summary",
+    "paymentError": "Payment processing failed. Please try again.",
+    "payNow": "Pay Now",
+    "processingOrder": "Processing order...",
+    "processingPayment": "Processing payment...",
+    "quantity": "Qty",
+    "redirectingToPayment": "Redirecting to payment gateway...",
+    "remove": "Remove",
+    "skipped": "Skipped",
+    "subtotal": "Sub Total",
+    "tax": "Tax",
+    "total": "Total Payable",
+    "totalPrice": "Total Price"
+  },
+  "payments": {
+    "amount": "Amount",
+    "amountPaid": "Amount Paid",
+    "backToHome": "Back to Home",
+    "failureMessage": "We encountered an issue processing your payment",
+    "failureTitle": "Payment Failed",
+    "invoiceId": "Invoice ID",
+    "pageTitle": "Payment Status",
+    "status": "Status",
+    "successMessage": "Your transaction has been completed successfully",
+    "successTitle": "Payment Successful!",
+    "transactionId": "Transaction ID",
+    "transactionTime": "Transaction Time",
+    "tryAgain": "Try Again",
+    "viewOrderHistory": "View Order History"
+  },
+  "phoneSection": {
+    "action": "Call",
+    "description": "Mon–Fri, 9:00–18:00",
+    "title": "Call support"
+  },
+  "profile": {
+    "AvailableCredits": "Available Credits",
+    "editProfile": "Edit Profile",
+    "email": "Email",
+    "helloUser": "Hello, ",
+    "NoAvailableCredits": "No Credits Available",
+    "phone": "Phone"
+  },
+  "quickLinks": {
+    "about": {
+      "description": "About the App",
+      "title": "About"
+    },
+    "faq": {
+      "description": "Common questions",
+      "title": "FAQ"
+    },
+    "support": {
+      "description": "Get help and assistance",
+      "title": "Support"
+    }
+  },
+  "status": {
+    "childSwitched": "Child switched successfully",
+    "fetchOrderDetailsFailed": "Failed to fetch order details.",
+    "fetchOrderHistoryFailed": "Failed to load order history. Please try again later.",
+    "noNotifications": "No notifications",
+    "profilePictureUpdated": "Profile picture updated successfully",
+    "profileUpdated": "Profile updated successfully",
+    "requestError": "An error occurred while processing your request",
+    "updateFailed": "Failed to update profile. Please try again."
+  },
+  "support": {
+    "action": "Send",
+    "description": "Get a reply within 24 hours",
+    "feedback": "We love questions and feedback and we are always happy to help!",
+    "reachTeam": "Reach Our Team",
+    "title": "Email support"
+  },
+  "ui": {
+    "developedBy": "Developed by",
+    "quickActions": "Quick Actions",
+    "seeAll": "See All"
+  },
+  "validation": {
+    "classRequired": "Class is required",
+    "emailRequired": "Email is required",
+    "firstNameMaxLength": "First name must be less than 50 characters",
+    "firstNameMinLength": "First name must be at least 2 characters",
+    "firstNameRequired": "First name is required",
+    "invalidEmail": "Please enter a valid email address",
+    "invalidPhone": "Please enter a valid 10-digit phone number",
+    "lastNameMaxLength": "Last name must be less than 50 characters",
+    "lastNameMinLength": "Last name must be at least 2 characters",
+    "lastNameRequired": "Last name is required",
+    "passwordRequired": "Password is required",
+    "pleaseFixErrors": "Please fix the errors before saving",
+    "requiredField": "Required",
+    "schoolRequired": "School is required"
+  },
+  "weekdays": {
+    "friday": {
+      "full": "Friday",
+      "short": "FRI"
+    },
+    "monday": {
+      "full": "Monday",
+      "short": "MON"
+    },
+    "saturday": {
+      "full": "Saturday",
+      "short": "SAT"
+    },
+    "sunday": {
+      "full": "Sunday",
+      "short": "SUN"
+    },
+    "thursday": {
+      "full": "Thursday",
+      "short": "THU"
+    },
+    "tuesday": {
+      "full": "Tuesday",
+      "short": "TUE"
+    },
+    "wednesday": {
+      "full": "Wednesday",
+      "short": "WED"
+    }
+  }
+}

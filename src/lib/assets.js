@@ -1,0 +1,15 @@
+export const images = {
+  logo: require("../../assets/logo.png"),
+  splashBg: require("../../assets/images/backgrounds/bg.png"),
+  aboutBg: require("../../assets/images/backgrounds/about.jpg"),
+  faqBg: require("../../assets/images/backgrounds/faq.jpg"),
+  actionCard1: require("../../assets/images/backgrounds/action_card_1.jpg"),
+  actionCard2: require("../../assets/images/backgrounds/action_card_2.jpg"),
+  illustration1: require("../../assets/images/icons/illustration1.png"),
+  illustration2: require("../../assets/images/icons/illustration2.png"),
+  illustration3: require("../../assets/images/icons/illustration3.png"),
+  illustration5: require("../../assets/images/icons/illustration5.png"),
+  calendar: require("../../assets/images/icons/calendar.png"),
+  placeholder: require("../../assets/images/icons/placeholder.png"),
+  childPlaceholder: require("../../assets/images/icons/child-placeholder.png"),
+};

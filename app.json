@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Yumi Catering",
+    "slug": "yumi-catering",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/logo.png",
+    "scheme": "yumicatering",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/backgrounds/bg.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#019C7F"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "ro.weblike.yumicatering"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logo.png",
+        "backgroundColor": "#019C7F"
+      },
+      "package": "ro.weblike.yumicatering",
+      "softwareKeyboardLayoutMode": "pan"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Yumi Catering to access your photos for profile pictures."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
