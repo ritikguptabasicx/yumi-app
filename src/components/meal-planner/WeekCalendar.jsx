@@ -40,14 +40,14 @@ const WeekCalendar = ({ selectedDay, isDaySkipped, menuItems, skippedDays = [] }
   };
 
   return (
-    <Card className="rounded-none bg-card px-5 py-6">
+    <Card className="rounded-none bg-card px-4 py-5 sm:px-5 sm:py-6">
       <View className="mb-6 flex-row items-center gap-3">
-        <AppImage source={images.calendar} width={40} height={40} contentFit="contain" />
-        <View className="gap-0.5">
-          <Text className="text-sm font-medium text-muted-foreground">
+        <AppImage source={images.calendar} width={36} height={36} contentFit="contain" />
+        <View className="flex-1 gap-0.5">
+          <Text className="text-xs font-medium text-muted-foreground sm:text-sm">
             {t("meals.week")} {weekDays[0]?.fullDate && format(weekDays[0].fullDate, "w")}
           </Text>
-          <Text className="text-base font-semibold text-foreground">
+          <Text className="text-sm font-semibold text-foreground sm:text-base">
             {weekDays[0]?.fullDate && format(weekDays[0].fullDate, "MMM dd")} –{" "}
             {weekDays[weekDays.length - 1]?.fullDate &&
               format(weekDays[weekDays.length - 1].fullDate, "MMM dd, yyyy")}
@@ -55,7 +55,7 @@ const WeekCalendar = ({ selectedDay, isDaySkipped, menuItems, skippedDays = [] }
         </View>
       </View>
 
-      <View className="flex-row gap-3">
+      <View className="gap-2 sm:gap-3">
         {weekDays.map((day) => {
           const isSelected = selectedDay === day.dayIndex;
           const hasOrders = isDayOrdered(day.weekDate);
@@ -69,7 +69,7 @@ const WeekCalendar = ({ selectedDay, isDaySkipped, menuItems, skippedDays = [] }
               key={day.id}
               disabled={isSkipped || hasOrders}
               className={cn(
-                "relative flex-1 items-center justify-center rounded-lg border px-2 py-2.5",
+                "relative flex-1 items-center justify-center rounded-lg border px-1.5 py-2 sm:px-2 sm:py-2.5",
                 isSelected
                   ? "border-primary bg-primary"
                   : isSkipped && !hasOrders
@@ -87,7 +87,7 @@ const WeekCalendar = ({ selectedDay, isDaySkipped, menuItems, skippedDays = [] }
               </Text>
               <Text
                 className={cn(
-                  "text-sm font-semibold",
+                  "text-xs font-semibold sm:text-sm",
                   isSelected ? "text-primary-foreground" : "text-foreground"
                 )}
               >
