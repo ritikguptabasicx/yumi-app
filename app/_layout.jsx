@@ -8,6 +8,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { I18nextProvider } from "react-i18next";
 import Toast from "react-native-toast-message";
+import { toastConfig } from "@/lib/toastConfig";
 import * as SplashScreen from "expo-splash-screen";
 
 import { UserProvider } from "@/contexts/UserContext";
@@ -47,7 +48,7 @@ export default function RootLayout() {
             <UserProvider>
               <StatusBar style="dark" />
               <Stack screenOptions={{ headerShown: false }} />
-              <Toast />
+              <Toast config={toastConfig} />
             </UserProvider>
           </I18nextProvider>
         </QueryClientProvider>

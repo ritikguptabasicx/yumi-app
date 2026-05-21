@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AppImage from "@/components/AppImage";
 import { useRouter } from "expo-router";
 import WeekCalendar from "./WeekCalendar";
@@ -35,6 +36,7 @@ const MealPlannerContainer = () => {
   const router = useRouter();
   const { user } = useUser();
   const { setCheckoutData } = useCheckoutStore();
+  const insets = useSafeAreaInsets();
 
   const initializePreSelectedMeals = (menuData) => {
     const preSelected = {};
@@ -153,45 +155,51 @@ const MealPlannerContainer = () => {
     }
   };
 
+  // ✅ Fix 2: Safe area aware loading state
   if (isLoading) {
     return (
-      <View className="flex-1 items-center justify-center py-32">
+      <View
+        className="flex-1 items-center justify-center"
+        style={{ paddingTop: insets.top + 32, paddingBottom: insets.bottom + 32 }}
+      >
         <ActivityIndicator size="large" color="#00A76F" />
       </View>
     );
   }
 
+  // ✅ Fix 2 & 3: Safe area aware + responsive empty state
   if (!menuItems?.length) {
     return (
-      <View className="flex-1 items-center justify-center gap-6 px-4 py-24">
+      <View
+        className="flex-1 items-center justify-center gap-6 px-4"
+        style={{ paddingTop: insets.top + 32, paddingBottom: insets.bottom + 32 }}
+      >
         <AppImage source={images.illustration3} width={160} height={160} contentFit="contain" />
-        <Text className="w-80 px-4 text-center text-base font-semibold text-gray-600">
+        <Text className="w-full max-w-xs px-6 text-center text-base font-semibold text-gray-600">
           {t("meals.noMealsMessage")}
         </Text>
       </View>
     );
   }
 
+  // ✅ Fix 1: Removed redundant nested View
   return (
     <View className="flex-1 bg-background">
-      <View className="flex-1">
-        <WeekCalendar
-          selectedDay={selectedDay}
-          isDaySkipped={isDaySkipped}
-          menuItems={menuItems}
-        />
-
-        <DailyMealSelection
-          selectedDay={selectedDay}
-          selectedMeals={selectedMeals[selectedDay] || {}}
-          onSkipDay={handleSkipDay}
-          isAllDaysHandled={areAllDaysHandled()}
-          onNextOrCheckout={handleNextOrCheckout}
-          availableMeals={getAvailableMealsForDay(selectedDay)}
-          onBack={handleBack}
-          isLastDay={selectedDay === getAvailableWeekdays()}
-        />
-      </View>
+      <WeekCalendar
+        selectedDay={selectedDay}
+        isDaySkipped={isDaySkipped}
+        menuItems={menuItems}
+      />
+      <DailyMealSelection
+        selectedDay={selectedDay}
+        selectedMeals={selectedMeals[selectedDay] || {}}
+        onSkipDay={handleSkipDay}
+        isAllDaysHandled={areAllDaysHandled()}
+        onNextOrCheckout={handleNextOrCheckout}
+        availableMeals={getAvailableMealsForDay(selectedDay)}
+        onBack={handleBack}
+        isLastDay={selectedDay === getAvailableWeekdays()}
+      />
     </View>
   );
 };

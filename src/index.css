@@ -56,6 +56,11 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
+/* Ensure full-height layout on web so flex children can fill viewport */
+html, body, #root {
+  height: 100%;
+}
+
 /* Global Autofill Reset */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,

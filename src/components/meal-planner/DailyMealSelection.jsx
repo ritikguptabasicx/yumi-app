@@ -129,9 +129,10 @@ const DailyMealSelection = ({
       <ScrollView
         className="flex-1"
         contentContainerStyle={{
+          flexGrow: 1,
           paddingHorizontal: 16,
           paddingTop: 14,
-          paddingBottom: ACTION_BAR_HEIGHT + insets.bottom + 16,
+          paddingBottom: ACTION_BAR_HEIGHT + insets.bottom + 24,
         }}
         showsVerticalScrollIndicator={false}
       >
@@ -153,9 +154,13 @@ const DailyMealSelection = ({
         />
       </ScrollView>
 
+      {/* ✅ Fixed: explicit paddingBottom handles safe area, height stays clean */}
       <View
-        className="flex-row gap-3 border-t border-border/70 bg-white px-4 pt-3 shadow-lg"
-        style={{ paddingBottom: Math.max(insets.bottom, 12) }}
+        className="absolute bottom-0 left-0 right-0 z-10 flex-row gap-3 border-t border-border/70 bg-white px-4 pt-3 shadow-lg"
+        style={{
+          height: ACTION_BAR_HEIGHT + insets.bottom,
+          paddingBottom: insets.bottom,
+        }}
       >
         <Button variant="outline" className="h-12 flex-1 rounded-xl bg-white" onPress={onBack}>
           {t("actions.back")}

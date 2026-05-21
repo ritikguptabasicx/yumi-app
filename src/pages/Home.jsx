@@ -12,6 +12,7 @@ import { ParentProfile } from "@/components/ParentProfile";
 import ChildProfileCard from "@/components/ChildProfileCard";
 import AppHeader from "@/components/AppHeader";
 import { CalendarDays } from "lucide-react-native";
+import { Button } from "@/components/ui/button";
 
 import { useActiveOrder } from "@/hooks/useActiveOrder";
 
@@ -33,7 +34,11 @@ const Home = () => {
       }
       return data.data;
     },
-    { revalidateOnFocus: false, revalidateOnReconnect: false, revalidateIfStale: false }
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      revalidateIfStale: false,
+    }
   );
 
   const alert = dashboardData?.notifications || null;
@@ -46,12 +51,13 @@ const Home = () => {
         showsVerticalScrollIndicator={false}
       >
         <AppHeader />
-        <View className="mt-3">
+
+        <View className="mt-4">
           <ParentProfile />
         </View>
 
         <View className="mt-4">
-          <ChildProfileCard />
+          <ChildProfileCard showActions={false} />
         </View>
 
         <View className="mt-4">
@@ -74,15 +80,29 @@ const Home = () => {
         )}
 
         {!ordersData?.length ? (
-          <View className="mx-4 mt-5 flex-row items-center gap-3 rounded-2xl bg-white p-4">
-            <View className="h-11 w-11 items-center justify-center rounded-full bg-secondary-muted">
-              <CalendarDays size={21} color="#F37C21" />
+          <View className="mx-4 mt-6 rounded-3xl border border-border/50 bg-white p-5 shadow-sm">
+            <View className="flex-row items-center gap-4">
+              <View className="h-12 w-12 items-center justify-center rounded-2xl bg-secondary/10">
+                <CalendarDays size={22} color="#F37C21" />
+              </View>
+              <View className="min-w-0 flex-1">
+                <Text className="text-base font-bold text-foreground">
+                  {t("home.readyTitle")}
+                </Text>
+                <Text className="mt-1 text-xs leading-4 text-muted-foreground">
+                  {t("home.readySubtitle")}
+                </Text>
+              </View>
             </View>
-            <View className="min-w-0 flex-1">
-              <Text className="font-bold text-foreground">{t("home.readyTitle")}</Text>
-              <Text className="mt-0.5 text-sm text-muted-foreground">
-                {t("home.readySubtitle")}
-              </Text>
+            <View className="mt-4">
+              <Button
+                onPress={() => router.push("/(app)/(tabs)/meal-planner")}
+                className="h-11 w-full rounded-2xl bg-secondary active:opacity-90"
+              >
+                <Text className="text-sm font-bold text-white">
+                  {t("orders.OrderNow")}
+                </Text>
+              </Button>
             </View>
           </View>
         ) : null}

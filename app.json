@@ -1,42 +1,58 @@
 {
   "expo": {
-    "name": "Yumi Catering",
-    "slug": "yumi-catering",
+    "name": "Yumi",
+    "slug": "yumi",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
-    "scheme": "yumicatering",
+    "scheme": "yumi",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+
     "splash": {
       "image": "./assets/images/backgrounds/bg.png",
       "resizeMode": "cover",
-      "backgroundColor": "#019C7F"
+      "backgroundColor": "#FFFFFF"
     },
+
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "ro.weblike.yumicatering"
+      "bundleIdentifier": "com.weblike.yumi"
     },
+
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
-        "backgroundColor": "#019C7F"
+        "backgroundColor": "#FFFFFF"
       },
-      "package": "ro.weblike.yumicatering",
-      "softwareKeyboardLayoutMode": "pan"
+      "package": "com.weblike.yumi",
+      "softwareKeyboardLayoutMode": "pan",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
+
     "plugins": [
       "expo-router",
       "expo-secure-store",
       [
         "expo-image-picker",
         {
-          "photosPermission": "Allow Yumi Catering to access your photos for profile pictures."
+          "photosPermission": "Allow Yumi to access your photos for profile pictures."
         }
       ]
     ],
+
     "experiments": {
       "typedRoutes": true
+    },
+
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "9f5b31d4-6fec-4bca-88dd-022473c28209"
+      },
+      "EXPO_PUBLIC_API_BASE_URL": "https://devapi.yumi.ro"
     }
   }
 }

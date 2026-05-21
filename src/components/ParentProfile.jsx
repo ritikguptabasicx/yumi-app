@@ -1,8 +1,9 @@
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useUser } from "@/contexts/UserContext";
 import { useTranslation } from "react-i18next";
-import { Sparkles, UtensilsCrossed } from "lucide-react-native";
+import { Wallet } from "lucide-react-native";
+import { useRouter } from "expo-router";
 
 const getGreetingKey = () => {
   const hour = new Date().getHours();
@@ -14,6 +15,7 @@ const getGreetingKey = () => {
 export const ParentProfile = () => {
   const { user } = useUser();
   const { t } = useTranslation();
+  const router = useRouter();
 
   const displayName =
     user?.firstName && user?.lastName
@@ -21,46 +23,34 @@ export const ParentProfile = () => {
       : user?.name || t("profile.guestName");
   const initials = displayName.charAt(0).toUpperCase();
 
+  const credits = user?.creditsAvailable ?? 0;
+
   return (
-    <View className="px-4">
-      <View className="relative overflow-hidden rounded-3xl bg-primary">
-        <View className="absolute -right-10 -top-12 h-36 w-36 rounded-full bg-white/10" />
-        <View className="absolute -bottom-14 right-16 h-32 w-32 rounded-full bg-secondary/35" />
-        <View className="absolute bottom-5 right-5 h-14 w-14 items-center justify-center rounded-full bg-white/15">
-          <UtensilsCrossed size={26} color="#FFFFFF" />
+    <View className="flex-row items-center justify-between px-4 py-4">
+      <View className="flex-row items-center gap-4">
+        <Pressable onPress={() => router.push("/(app)/(tabs)/profile")} className="active:opacity-85">
+          <Avatar className="h-16 w-16 border-2 border-primary/20">
+            <AvatarImage source={user?.profilePictureURL} />
+            <AvatarFallback className="bg-primary-muted">
+              <Text className="text-2xl font-bold text-primary">{initials}</Text>
+            </AvatarFallback>
+          </Avatar>
+        </Pressable>
+        <View className="min-w-0">
+          <Text className="text-sm font-medium text-muted-foreground">{t(getGreetingKey())},</Text>
+          <Text className="text-lg font-bold text-foreground" numberOfLines={1}>
+            {displayName}
+          </Text>
         </View>
+      </View>
 
-        <View className="px-5 py-5">
-          <View className="mb-5 flex-row items-center justify-between">
-            <View className="flex-row items-center gap-2 rounded-full bg-white/15 px-3 py-1.5">
-              <Sparkles size={14} color="#FFFFFF" />
-              <Text className="text-xs font-semibold text-white">
-                {t("home.freshMeals")}
-              </Text>
-            </View>
-          </View>
-
-          <View className="flex-row items-center gap-4">
-            <Avatar className="h-16 w-16 border-2 border-white/40">
-              <AvatarImage source={user?.profilePictureURL} />
-              <AvatarFallback className="bg-white">
-                <Text className="text-xl font-bold text-primary">{initials}</Text>
-              </AvatarFallback>
-            </Avatar>
-
-            <View className="min-w-0 flex-1">
-              <Text className="text-sm font-medium text-white/80">
-                {t(getGreetingKey())}
-              </Text>
-              <Text className="mt-1 text-2xl font-bold text-white" numberOfLines={2}>
-                {displayName}
-              </Text>
-              <Text className="mt-1.5 text-sm leading-5 text-white/85" numberOfLines={2}>
-                {t("home.planSubtitle")}
-              </Text>
-            </View>
-          </View>
-        </View>
+      <View className="flex-row items-center gap-1.5 rounded-full border border-primary/10 bg-accent px-3 py-1.5">
+        <Wallet size={15} color="#019C7F" />
+        <Text className="text-xs font-semibold text-primary">
+          {credits > 0
+            ? `${credits} ${t("profile.creditsLabel")}`
+            : `0 ${t("profile.creditsLabel")}`}
+        </Text>
       </View>
     </View>
   );

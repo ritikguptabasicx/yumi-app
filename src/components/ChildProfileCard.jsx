@@ -20,7 +20,7 @@ import Loader from "./Loader";
 import { api } from "@/lib/apiClient";
 import { images } from "@/lib/assets";
 
-const ChildProfileCard = () => {
+const ChildProfileCard = ({ showActions = true }) => {
   const [open, setOpen] = useState(false);
   const { user, setUser } = useUser();
   const { children, isChildrenLoading, mutateChildren } = useChildren();
@@ -84,94 +84,146 @@ const ChildProfileCard = () => {
   }
 
   return (
-    <View className="gap-3 px-4">
-      <View className="flex-row items-center justify-end">
-        {hasChildren && (
-          <Pressable
-            onPress={() => setOpen(true)}
-            className="flex-row items-center gap-1"
-          >
-            <Text className="text-sm font-semibold text-primary">{t("child.myKids")}</Text>
-            <ChevronRight size={16} color="#019C7F" />
-          </Pressable>
-        )}
-      </View>
-
+    <View className="px-4">
       {!hasChildren ? (
-        <Pressable onPress={handleAddChild}>
-          <Card className="flex-row overflow-hidden rounded-2xl bg-primary px-4 py-3">
-            <View className="flex-1 gap-4">
+        <Pressable
+          onPress={handleAddChild}
+          className="transition-all active:scale-[0.98]"
+        >
+          <Card className="flex-row items-center overflow-hidden rounded-3xl border-0 bg-primary p-5 pr-2">
+            <View className="z-10 flex-1 gap-4">
               <View>
-                <Text className="mb-1 text-lg font-bold text-white">
+                <Text className="mb-1 text-xl font-bold text-white">
                   {t("child.addYourChildHeading")}
                 </Text>
-                <Text className="text-sm text-gray-200">{t("child.personalizedMeals")}</Text>
+                <Text className="text-sm leading-5 text-emerald-50">
+                  {t("child.personalizedMeals")}
+                </Text>
               </View>
               <Button
                 variant="outline"
                 onPress={handleAddChild}
-                className="self-start rounded-full border-primary bg-white"
+                className="h-9 self-start rounded-full border-white bg-white/10 px-4 active:bg-white/20"
               >
-                <Text className="text-primary">{t("child.addChild")} +</Text>
+                <Text className="font-semibold text-white">
+                  {t("child.addChild")} +
+                </Text>
               </Button>
             </View>
-            <AppImage source={images.illustration5} width={160} height={144} contentFit="contain" />
+            <View className="relative h-28 w-36 items-center justify-center">
+              <AppImage
+                source={images.illustration5}
+                width={130}
+                height={110}
+                contentFit="contain"
+              />
+            </View>
           </Card>
         </Pressable>
       ) : selectedChild ? (
-        <Card className="rounded-2xl bg-primary-soft p-4">
+        <Card className="rounded-3xl border border-border/50 bg-white p-5 shadow-sm">
           <View className="mb-4 flex-row items-center justify-between">
-            <View className="flex-row items-center gap-4">
-              <Avatar className="h-12 w-12 rounded-md border border-white-muted">
+            <View className="flex-row items-center gap-3.5">
+              <Avatar className="h-14 w-14 rounded-2xl border-2 border-primary-muted">
                 <AvatarImage source={selectedChild?.profilePictureURL} />
-                <AvatarFallback className="rounded-md bg-white">
-                  <Text className="font-semibold text-primary">
+                <AvatarFallback className="rounded-2xl bg-primary-muted">
+                  <Text className="text-lg font-bold text-primary">
                     {selectedChild?.firstName?.charAt(0) ?? "C"}
                   </Text>
                 </AvatarFallback>
               </Avatar>
-              <Text className="font-semibold text-white">
-                {selectedChild?.firstName ?? "Unknown"} {selectedChild?.lastName ?? ""}
-              </Text>
+              <View className="min-w-0">
+                <Text
+                  className="text-base font-bold text-foreground"
+                  numberOfLines={1}
+                >
+                  {selectedChild?.firstName ?? "Unknown"}{" "}
+                  {selectedChild?.lastName ?? ""}
+                </Text>
+                <Text className="mt-0.5 text-xs font-medium text-muted-foreground">
+                  {t("navigation.childProfile")}
+                </Text>
+              </View>
             </View>
 
-            <Button
-              onPress={handleEditChild}
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 rounded-full bg-secondary"
-            >
-              <Pencil size={16} color="#fff" />
-            </Button>
+            {showActions ? (
+              <View className="flex-row items-center gap-2">
+                <Pressable
+                  onPress={() => setOpen(true)}
+                  className="flex-row items-center gap-1 rounded-full bg-secondary-muted px-3 py-1.5 active:opacity-80"
+                >
+                  <Text className="text-xs font-bold text-secondary">
+                    {t("child.myKids")}
+                  </Text>
+                  <ChevronRight size={12} color="#F37C21" />
+                </Pressable>
+                <Pressable
+                  onPress={handleEditChild}
+                  className="h-8 w-8 items-center justify-center rounded-full bg-muted active:bg-border/60"
+                >
+                  <Pencil size={14} color="#64748B" />
+                </Pressable>
+              </View>
+            ) : null}
           </View>
 
-          <View className="gap-2">
-            <View className="flex-row items-center gap-2">
-              <School size={16} color="#fff" />
-              <Text className="text-sm text-white">
+          <View className="my-3.5 h-[1px] bg-border/40" />
+
+          <View className="flex-row items-center justify-between">
+            <View className="flex-1 pr-2">
+              <View className="mb-1 flex-row items-center gap-1.5">
+                <School size={13} color="#64748B" />
+                <Text className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                  {t("child.school")}
+                </Text>
+              </View>
+              <Text
+                className="text-sm font-semibold text-foreground"
+                numberOfLines={1}
+              >
                 {selectedChild?.school?.name ?? t("child.noSchoolAssigned")}
               </Text>
             </View>
-            <View className="flex-row items-center gap-2">
-              <GraduationCap size={16} color="#fff" />
-              <Text className="text-sm text-white">
-                {t("child.grade")} :{" "}
-                {selectedChild?.school?.class?.[0]?.name ?? "No class assigned"}
+
+            <View className="mx-4 h-8 w-[1px] bg-border/45" />
+
+            <View className="flex-1 pl-2">
+              <View className="mb-1 flex-row items-center gap-1.5">
+                <GraduationCap size={14} color="#64748B" />
+                <Text className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                  {t("child.grade")}
+                </Text>
+              </View>
+              <Text
+                className="text-sm font-semibold text-foreground"
+                numberOfLines={1}
+              >
+                {selectedChild?.school?.class?.[0]?.name ?? "—"}
               </Text>
             </View>
           </View>
         </Card>
       ) : null}
 
-      <Modal visible={open} transparent animationType="slide" onRequestClose={() => setOpen(false)}>
-        <Pressable className="flex-1 justify-end bg-overlay" onPress={() => setOpen(false)}>
+      <Modal
+        visible={open}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setOpen(false)}
+      >
+        <Pressable
+          className="flex-1 justify-end bg-overlay"
+          onPress={() => setOpen(false)}
+        >
           <View className="max-h-96 rounded-t-2xl bg-background pb-8">
             <View className="items-center border-b border-border py-3">
               <View className="mb-2 h-1 w-12 rounded-full bg-gray-300" />
               <Text className="text-lg font-semibold text-foreground">
                 {t("child.switchChildProfile")}
               </Text>
-              <Text className="text-sm text-muted-foreground">{t("child.selectChild")}</Text>
+              <Text className="text-sm text-muted-foreground">
+                {t("child.selectChild")}
+              </Text>
             </View>
 
             <ScrollView className="max-h-64 px-4 py-2">
@@ -218,7 +270,11 @@ const ChildProfileCard = () => {
               <Button onPress={handleAddChild} className="w-full bg-primary">
                 {t("child.addNewChild")}
               </Button>
-              <Button variant="outline" onPress={() => setOpen(false)} className="w-full">
+              <Button
+                variant="outline"
+                onPress={() => setOpen(false)}
+                className="w-full"
+              >
                 {t("actions.cancel")}
               </Button>
             </View>

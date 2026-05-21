@@ -4,7 +4,6 @@ import { ArrowLeft } from "lucide-react-native";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useUser } from "@/contexts/UserContext";
 import { useChildren } from "@/hooks/useChildren";
-import NotificationButton from "@/components/NotificationButton";
 import { useMemo } from "react";
 
 const ScreenHeader = ({ showBackButton, title }) => {
@@ -166,9 +165,7 @@ const ScreenHeader = ({ showBackButton, title }) => {
           </View>
         )}
 
-        <View style={{ marginLeft: 8 }}>
-          <NotificationButton />
-        </View>
+        <View style={{ width: 8 }} />
       </View>
     </View>
   );

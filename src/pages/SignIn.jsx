@@ -1,10 +1,10 @@
-import { View, Text, Pressable, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, Pressable, ScrollView, KeyboardAvoidingView, Platform, TextInput } from "react-native";
 import AppImage from "@/components/AppImage";
 import { useRouter, Link } from "expo-router";
-import { Eye, EyeOff } from "lucide-react-native";
+import { Eye, EyeOff, Mail, Lock } from "lucide-react-native";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import Logo from "@/components/Logo";
 import { useUser } from "@/contexts/UserContext";
 import { useTranslation } from "react-i18next";
 import { LanguageSelect } from "@/components/LanguageSelect";
@@ -22,6 +22,8 @@ const SignIn = () => {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isEmailFocused, setIsEmailFocused] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const { legalLinks } = useLegalLinks();
 
   const handleSignIn = async () => {
@@ -48,117 +50,177 @@ const SignIn = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      className="flex-1 bg-white"
+      className="flex-1 bg-[#FFFDF9]"
     >
       <ScrollView
         className="flex-1"
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
       >
-        {/* Top bar: language selector */}
-        <View className="w-full flex-row items-center justify-end bg-secondary-light-muted px-6 py-4">
+        {/* Background Ambient Glow Elements */}
+        <View 
+          className="absolute top-0 left-0 right-0 bottom-0 overflow-hidden" 
+          pointerEvents="none" 
+          style={{ position: "absolute", zIndex: 0 }}
+        >
+          {/* Top-Left Ambient Circle */}
+          <View 
+            className="w-72 h-72 rounded-full bg-primary absolute -top-16 -left-16" 
+            style={{ opacity: 0.08 }}
+          />
+          {/* Bottom-Right Ambient Circle */}
+          <View 
+            className="w-80 h-80 rounded-full bg-secondary absolute -bottom-20 -right-20" 
+            style={{ opacity: 0.1 }}
+          />
+        </View>
+
+        {/* Dedicated Language Selector Row */}
+        <View className="w-full flex-row justify-end px-6 pt-12 pb-2" style={{ zIndex: 10 }}>
           <LanguageSelect />
         </View>
 
-        {/* Hero section */}
-        <View className="items-center bg-secondary-light-muted px-6 pb-10 pt-4">
-          <AppImage source={images.illustration2} width={120} height={120} contentFit="contain" />
-        </View>
-
-        {/* Form card */}
-        <View className="flex-1 rounded-t-3xl bg-white px-6 pt-8">
-          <View className="mb-8">
-            <Text className="mb-1 text-2xl font-bold text-neutral-darkest">
-              {t("auth.welcomeBack")}
-            </Text>
-            <Text className="text-sm text-neutral-dark">
-              {t("auth.loginTitle")}
-            </Text>
-          </View>
-
-          <View className="gap-4">
-            {/* Email */}
-            <Input
-              value={emailAddress}
-              onChangeText={setEmailAddress}
-              placeholder={t("auth.email")}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              className="rounded-xl border-2 border-gray-200"
-            />
-
-            {/* Password */}
-            <View>
-              <Input
-                value={password}
-                onChangeText={setPassword}
-                placeholder={t("auth.password")}
-                secureTextEntry={!showPassword}
-                className="rounded-xl border-2 border-gray-200 pr-12"
+        {/* Main Content Container */}
+        <View className="flex-1 px-6 pb-8 justify-between" style={{ zIndex: 1 }}>
+          {/* Header section (Branding & Welcome) */}
+          <View className="items-center mt-2">
+            <Logo className="h-12 w-32 mb-6" />
+            
+            {/* Elegant Illustration wrapper */}
+            <View className="items-center justify-center my-4 relative">
+              <View 
+                className="w-36 h-36 rounded-full bg-secondary absolute" 
+                style={{ opacity: 0.15 }}
               />
-              <Pressable
-                onPress={() => setShowPassword(!showPassword)}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                style={{
-                  position: "absolute",
-                  right: 14,
-                  top: 0,
-                  bottom: 0,
-                  justifyContent: "center",
-                }}
-              >
-                {showPassword ? (
-                  <EyeOff size={20} color="#9CA3AF" />
-                ) : (
-                  <Eye size={20} color="#9CA3AF" />
-                )}
-              </Pressable>
+              <AppImage source={images.illustration2} width={130} height={130} contentFit="contain" />
             </View>
 
-            {/* Forgot password */}
-            <View className="items-end">
-              <Link href="/(auth)/forgot-password" asChild>
-                <Pressable hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-                  <Text className="text-sm font-semibold text-primary">
-                    {t("auth.forgotPassword")}
-                  </Text>
-                </Pressable>
-              </Link>
+            <View className="items-center mt-3 mb-6">
+              {/* Premium Welcome Badge */}
+              <View className="bg-accent px-3 py-1 rounded-full mb-3 flex-row items-center">
+                <Text className="text-xs font-extrabold text-accent-foreground tracking-wider uppercase">
+                  YUMI CATERING
+                </Text>
+              </View>
+              <Text className="text-3xl font-extrabold text-neutral-darkest tracking-tight text-center">
+                {t("auth.welcomeBack")} 👋
+              </Text>
+              <Text className="text-sm font-semibold text-neutral-dark mt-2 text-center px-4">
+                {t("auth.loginTitle")}
+              </Text>
             </View>
-
-            {/* Submit */}
-            <Button
-              onPress={handleSignIn}
-              disabled={isLoading}
-              loading={isLoading}
-              className="w-full rounded-full bg-primary py-3"
-            >
-              {isLoading ? t("auth.signInProcessing") : t("auth.signIn")}
-            </Button>
           </View>
 
-          {/* Legal */}
-          <View className="py-8">
-            <Text className="text-center text-xs leading-5 text-gray-500">
-              {t("auth.loginAgreement")}{" "}
-              <Text
-                className="font-semibold text-primary"
-                onPress={() =>
-                  legalLinks?.privacy && WebBrowser.openBrowserAsync(legalLinks.privacy)
-                }
+          {/* Form and Action Area wrapped in a floating card */}
+          <View className="flex-1 justify-center max-w-md w-full mx-auto">
+            <View className="bg-white rounded-3xl p-6 shadow-md border border-slate-100 gap-5">
+              
+              {/* Email Input Container */}
+              <View className="gap-2">
+                <Text className="text-xs font-bold text-neutral-darkest/70 ml-1">
+                  {t("auth.email")}
+                </Text>
+                <View className={`flex-row items-center h-14 w-full rounded-2xl border-2 px-4 bg-slate-50 ${
+                  isEmailFocused ? "border-primary bg-white" : "border-slate-100"
+                }`}>
+                  <Mail size={18} color={isEmailFocused ? "#019C7F" : "#9CA3AF"} />
+                  {/* Subtle vertical separator */}
+                  <View className="w-[1px] h-6 bg-slate-200 mx-3" />
+                  <TextInput
+                    value={emailAddress}
+                    onChangeText={setEmailAddress}
+                    onFocus={() => setIsEmailFocused(true)}
+                    onBlur={() => setIsEmailFocused(false)}
+                    placeholder={t("auth.email")}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    className="flex-1 h-full text-base text-neutral-darkest font-medium"
+                    placeholderTextColor="#9CA3AF"
+                  />
+                </View>
+              </View>
+
+              {/* Password Input Container */}
+              <View className="gap-2">
+                <Text className="text-xs font-bold text-neutral-darkest/70 ml-1">
+                  {t("auth.password")}
+                </Text>
+                <View className={`flex-row items-center h-14 w-full rounded-2xl border-2 px-4 bg-slate-50 ${
+                  isPasswordFocused ? "border-primary bg-white" : "border-slate-100"
+                }`}>
+                  <Lock size={18} color={isPasswordFocused ? "#019C7F" : "#9CA3AF"} />
+                  {/* Subtle vertical separator */}
+                  <View className="w-[1px] h-6 bg-slate-200 mx-3" />
+                  <TextInput
+                    value={password}
+                    onChangeText={setPassword}
+                    onFocus={() => setIsPasswordFocused(true)}
+                    onBlur={() => setIsPasswordFocused(false)}
+                    placeholder={t("auth.password")}
+                    secureTextEntry={!showPassword}
+                    className="flex-1 h-full pr-10 text-base text-neutral-darkest font-medium"
+                    placeholderTextColor="#9CA3AF"
+                  />
+                  <Pressable
+                    onPress={() => setShowPassword(!showPassword)}
+                    hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+                    className="absolute right-4"
+                  >
+                    {showPassword ? (
+                      <EyeOff size={18} color="#9CA3AF" />
+                    ) : (
+                      <Eye size={18} color="#9CA3AF" />
+                    )}
+                  </Pressable>
+                </View>
+
+                {/* Forgot password */}
+                <View className="items-end mt-1">
+                  <Link href="/(auth)/forgot-password" asChild>
+                    <Pressable hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+                      <Text className="text-sm font-bold text-primary">
+                        {t("auth.forgotPassword")}
+                      </Text>
+                    </Pressable>
+                  </Link>
+                </View>
+              </View>
+
+              {/* Submit Button */}
+              <Button
+                onPress={handleSignIn}
+                disabled={isLoading}
+                loading={isLoading}
+                className="w-full h-14 rounded-2xl bg-primary flex-row items-center justify-center shadow-md mt-2"
               >
-                {t("auth.privacyPolicy")}
+                {isLoading ? t("auth.signInProcessing") : t("auth.signIn")}
+              </Button>
+            </View>
+
+            {/* Legal Links Footer */}
+            <View className="mt-8 mb-4 px-4">
+              <Text className="text-center text-xs leading-5 text-neutral-dark/80 font-semibold">
+                {t("auth.loginAgreement")}{" "}
+                <Text
+                  className="font-extrabold text-primary underline"
+                  onPress={() =>
+                    legalLinks?.privacy && WebBrowser.openBrowserAsync(legalLinks.privacy)
+                  }
+                >
+                  {t("auth.privacyPolicy")}
+                </Text>
+                {" & "}
+                <Text
+                  className="font-extrabold text-primary underline"
+                  onPress={() =>
+                    legalLinks?.terms && WebBrowser.openBrowserAsync(legalLinks.terms)
+                  }
+                >
+                  {t("auth.termsOfService")}
+                </Text>
               </Text>
-              {" & "}
-              <Text
-                className="font-semibold text-primary"
-                onPress={() =>
-                  legalLinks?.terms && WebBrowser.openBrowserAsync(legalLinks.terms)
-                }
-              >
-                {t("auth.termsOfService")}
-              </Text>
-            </Text>
+            </View>
           </View>
         </View>
       </ScrollView>
