@@ -122,8 +122,8 @@ const DailyMealSelection = ({
 
   return (
     <View className="flex-1">
-      <View className="gap-4 px-2 pb-28">
-        <View className="px-4">
+      <View className="gap-3 px-3 pb-32 sm:gap-4 sm:px-4 sm:pb-28">
+        <View className="px-0 sm:px-2">
           <Text className="mb-3 text-base font-semibold text-mealText">
             {t("meals.mealCategory")}
           </Text>
@@ -141,11 +141,11 @@ const DailyMealSelection = ({
         />
       </View>
 
-      <View className="absolute bottom-0 left-0 right-0 flex-row gap-4 bg-white p-4 shadow-lg">
-        <Button variant="outline" className="h-11 flex-1 rounded-xl" onPress={onBack}>
+      <View className="absolute bottom-0 left-0 right-0 flex-row gap-2 bg-white p-3 shadow-lg sm:gap-4 sm:p-4">
+        <Button variant="outline" className="h-10 flex-1 rounded-lg sm:h-11 sm:rounded-xl" onPress={onBack}>
           {t("actions.back")}
         </Button>
-        <Button className="h-11 flex-1 rounded-xl bg-primary" onPress={handleNextClick}>
+        <Button className="h-10 flex-1 rounded-lg bg-primary sm:h-11 sm:rounded-xl" onPress={handleNextClick}>
           {isAllDaysHandled && isLastDay ? t("orders.checkout") : t("orders.next")}
         </Button>
       </View>

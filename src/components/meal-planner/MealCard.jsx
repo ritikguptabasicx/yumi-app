@@ -185,18 +185,18 @@ const MealCard = ({ selectedMeals, availableMeals }) => {
   });
 
   return (
-    <View className="gap-3">
+    <View className="gap-2 sm:gap-3">
       {mergedMeals.map((meal) => (
         <View
           key={meal.itemId}
           className={cn(
-            "relative rounded-lg border bg-card p-3",
+            "relative rounded-lg border bg-card p-2 sm:p-3",
             meal.isAdded === 1 ? "border-primary bg-primary-muted" : "border-border"
           )}
         >
-          <View className="mb-3">
+          <View className="mb-2 sm:mb-3">
             <View className="flex-row items-start justify-between gap-2">
-              <Text className="flex-1 text-sm font-medium text-foreground">{meal.itemName}</Text>
+              <Text className="flex-1 text-xs font-medium text-foreground sm:text-sm">{meal.itemName}</Text>
               {meal.itemUID && (
                 <Badge variant="outline" className="h-4 px-1">
                   <Text className="text-xs">{meal.itemUID}</Text>
@@ -209,7 +209,7 @@ const MealCard = ({ selectedMeals, availableMeals }) => {
             ) : null}
 
             {meal.allergens && meal.allergens.length > 0 && (
-              <View className="mt-4 flex-row items-center gap-1">
+              <View className="mt-2 flex-row items-center gap-1 sm:mt-3">
                 <AlertTriangle size={12} color="#F97316" />
                 <Text className="text-xs text-muted-foreground">
                   {t("meals.contains")} {meal.allergens.map((a) => a.name).join(", ")}
@@ -220,19 +220,19 @@ const MealCard = ({ selectedMeals, availableMeals }) => {
 
           <View className="flex-row items-center justify-between">
             <View className="flex-row items-center gap-1">
-              <Text className="text-base font-medium text-primary">
+              <Text className="text-sm font-medium text-primary sm:text-base">
                 {meal.itemPrice?.toFixed(2)}
               </Text>
               <Text className="text-xs text-primary">{meal.currency || ""}</Text>
             </View>
 
-            <View className="flex-row items-center rounded-full p-1">
+            <View className="flex-row items-center rounded-full p-0.5 sm:p-1">
               <Button
                 variant="outline"
                 onPress={() => handleDecrement(meal)}
                 disabled={meal.quantity === 0}
                 className={cn(
-                  "h-7 w-7 rounded-full border-primary p-0",
+                  "h-6 w-6 rounded-full border-primary p-0 sm:h-7 sm:w-7",
                   meal.quantity === 0 && "opacity-50"
                 )}
                 size="icon"
@@ -240,14 +240,14 @@ const MealCard = ({ selectedMeals, availableMeals }) => {
                 <Minus size={12} color="#019C7F" />
               </Button>
 
-              <Text className="mx-1 w-6 text-center text-sm font-medium">
+              <Text className="mx-0.5 w-5 text-center text-xs font-medium sm:mx-1 sm:w-6 sm:text-sm">
                 {meal.quantity || 0}
               </Text>
 
               <Button
                 variant="outline"
                 onPress={() => handleIncrement(meal)}
-                className="h-7 w-7 rounded-full border-primary p-0"
+                className="h-6 w-6 rounded-full border-primary p-0 sm:h-7 sm:w-7"
                 size="icon"
               >
                 <Plus size={12} color="#019C7F" />

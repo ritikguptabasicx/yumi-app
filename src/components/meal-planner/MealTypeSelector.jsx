@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const MealTypeSelector = ({ mealTypes, activeMealType, onTypeSelect }) => (
-  <View className="flex-row flex-wrap gap-3">
+  <View className="gap-2 sm:gap-3">
     {mealTypes?.map((type) => {
       const isActive = type.itemType === activeMealType;
 
@@ -13,7 +13,7 @@ const MealTypeSelector = ({ mealTypes, activeMealType, onTypeSelect }) => (
           variant="outline"
           onPress={() => onTypeSelect(type.itemType)}
           className={cn(
-            "h-12 flex-1 min-w-28 rounded-full",
+            "h-11 w-full rounded-lg sm:h-12 sm:rounded-full",
             isActive ? "border-transparent bg-primary" : "border-border bg-card"
           )}
         >
