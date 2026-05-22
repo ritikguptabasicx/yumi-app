@@ -122,7 +122,7 @@ const DailyMealSelection = ({
     }
   };
 
-  const ACTION_BAR_HEIGHT = 76;
+  const ACTION_BAR_HEIGHT = 20;
 
   return (
     <View className="flex-1">

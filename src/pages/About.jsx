@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, Linking } from "react-native";
+import { View, Text, ScrollView, Pressable, Linking, RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppImage from "@/components/AppImage";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,10 +8,15 @@ import Loader from "@/components/Loader";
 import { useAboutData } from "@/hooks/useAboutData";
 import { images } from "@/lib/assets";
 import { stripHtml } from "@/lib/utils";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "expo-router";
 
 const About = () => {
   const { t } = useTranslation();
-  const { aboutData, isLoading: loading } = useAboutData();
+  const [refreshing, setRefreshing] = useState(false);
+  const { aboutData, isLoading: loading, mutate } = useAboutData();
+  const router = useRouter();
 
   if (loading) {
     return <Loader />;
@@ -20,7 +25,24 @@ const About = () => {
   return (
     <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
       <ScreenHeader title={t("navigation.aboutApp")} />
-      <ScrollView className="flex-1 pb-4" showsVerticalScrollIndicator={false}>
+      <ScrollView
+        className="flex-1 pb-4"
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={async () => {
+              setRefreshing(true);
+              try {
+                await mutate();
+              } finally {
+                setRefreshing(false);
+              }
+            }}
+            tintColor="#019C7F"
+          />
+        }
+      >
         <AppImage source={images.aboutBg} height={240} className="w-full" contentFit="cover" />
 
         <View className="gap-6 p-4">

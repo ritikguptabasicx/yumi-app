@@ -29,3 +29,14 @@ export const formatDate = (dateString) => {
     return "Invalid date";
   }
 };
+
+
+export const showMealAddedNotification = async (mealName) => {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "Meal Added 🍱",
+      body: `${mealName} added successfully`,
+    },
+    trigger: null,
+  });
+};

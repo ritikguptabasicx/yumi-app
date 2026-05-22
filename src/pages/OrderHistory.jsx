@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { View, Text, ScrollView, Pressable } from "react-native";
+import { View, Text, ScrollView, Pressable, RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { format, isValid } from "date-fns";
 import { useRouter } from "expo-router";
+import useSWR from "swr";
 import {
   Calendar,
   ChevronRight,
@@ -51,6 +52,18 @@ const OrderHistory = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isLoadingDetails, setIsLoadingDetails] = useState(false);
   const [activeStatus, setActiveStatus] = useState("all");
+  const [refreshing, setRefreshing] = useState(false);
+
+  const { mutate: mutateOrderHistory } = useSWR(
+    user?.id ? ["order-history", user.id] : null,
+    async () => {
+      const userId = user?.id ? parseInt(user.id) : 0;
+      const childId = user?.selectedChildId || 0;
+      const response = await api.post("/api/v1/order/history", { userId, childId });
+      setOrders(response.data.data || []);
+      return response.data.data || [];
+    }
+  );
 
   useEffect(() => {
     const fetchOrderHistory = async () => {

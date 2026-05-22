@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, Text, ScrollView, Pressable } from "react-native";
+import { View, Text, ScrollView, Pressable, RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppImage from "@/components/AppImage";
 import {
@@ -18,7 +18,8 @@ import { stripHtml } from "@/lib/utils";
 const FAQ = () => {
   const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState(null);
-  const { categorizedFaqs, isLoading } = useFAQData();
+  const [refreshing, setRefreshing] = useState(false);
+  const { categorizedFaqs, isLoading, mutate } = useFAQData();
 
   const categories = Object.keys(categorizedFaqs);
 
@@ -35,7 +36,24 @@ const FAQ = () => {
       {isLoading ? (
         <Loader />
       ) : categories.length > 0 ? (
-        <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+        <ScrollView
+          className="flex-1"
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={async () => {
+                setRefreshing(true);
+                try {
+                  await mutate();
+                } finally {
+                  setRefreshing(false);
+                }
+              }}
+              tintColor="#019C7F"
+            />
+          }
+        >
           <AppImage source={images.faqBg} height={240} className="w-full" contentFit="cover" />
 
           <View className="gap-6 p-6">

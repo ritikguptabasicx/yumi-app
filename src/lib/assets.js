@@ -12,4 +12,5 @@ export const images = {
   calendar: require("../../assets/images/icons/calendar.png"),
   placeholder: require("../../assets/images/icons/placeholder.png"),
   childPlaceholder: require("../../assets/images/icons/child-placeholder.png"),
+  appIcon: require("../../assets/app-icon.png"),
 };

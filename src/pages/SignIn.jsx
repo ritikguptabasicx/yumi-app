@@ -1,40 +1,141 @@
-import { View, Text, Pressable, ScrollView, KeyboardAvoidingView, Platform, TextInput } from "react-native";
-import AppImage from "@/components/AppImage";
-import { useRouter, Link } from "expo-router";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  TextInput,
+  Linking,
+} from "react-native";
+import { router } from "expo-router";
+import { Eye, EyeOff } from "lucide-react-native";
 import { useState } from "react";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/Logo";
 import { useUser } from "@/contexts/UserContext";
 import { useTranslation } from "react-i18next";
 import { LanguageSelect } from "@/components/LanguageSelect";
 import { api } from "@/lib/apiClient";
-import { useLegalLinks } from "@/hooks/useLegalLinks";
 import toast from "@/lib/toast";
-import { images } from "@/lib/assets";
-import * as WebBrowser from "expo-web-browser";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+// ─── Reusable Rounded Box Input Field ─────────────────────────────────
+
+const SimpleInput = ({
+  label,
+  value,
+  onChangeText,
+  isFocused,
+  onFocus,
+  onBlur,
+  secureTextEntry,
+  showToggle,
+  onToggle,
+  error,
+  ...props
+}) => (
+  <View className="gap-1.5">
+    <Text
+      className={`ml-1 text-[11px] font-bold uppercase tracking-wider ${
+        error ? "text-destructive" : isFocused ? "text-primary" : "text-neutral-400"
+      }`}
+    >
+      {label}
+    </Text>
+    <View
+      className={`h-16 flex-row items-center rounded-2xl border-2 px-4 transition-all duration-200 ${
+        error
+          ? "border-destructive bg-destructive/5"
+          : isFocused
+          ? "border-primary bg-white"
+          : "border-neutral-200 bg-neutral-50/50"
+      }`}
+    >
+      <TextInput
+        value={value}
+        onChangeText={onChangeText}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        secureTextEntry={secureTextEntry}
+        className="h-full flex-1 text-base font-bold text-neutral-900"
+        placeholderTextColor="#A3A3A3"
+        {...props}
+      />
+      {showToggle && (
+        <Pressable onPress={onToggle} className="p-1.5" hitSlop={8}>
+          {secureTextEntry ? (
+            <EyeOff size={18} color={error ? "#EF4444" : "#737373"} />
+          ) : (
+            <Eye size={18} color={error ? "#EF4444" : "#737373"} />
+          )}
+        </Pressable>
+      )}
+    </View>
+    {error && (
+      <Text className="ml-1 text-xs font-semibold text-destructive">
+        {error}
+      </Text>
+    )}
+  </View>
+);
+
+// ─── Main Component ──────────────────────────────────────────────────
 
 const SignIn = () => {
-  const router = useRouter();
   const { setUser } = useUser();
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
+
   const [showPassword, setShowPassword] = useState(false);
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
-  const { legalLinks } = useLegalLinks();
+  
+  // Validation state
+  const [errors, setErrors] = useState({});
+
+  // Define runtime translation-backed Zod Schema
+  const loginSchema = z.object({
+    emailAddress: z
+      .string()
+      .min(1, { message: t("validation.emailRequired") || "Email is required" })
+      .email({ message: t("validation.invalidEmail") || "Invalid email layout" }),
+    password: z
+      .string()
+      .min(1, { message: t("validation.passwordRequired") || "Password is required" }),
+  });
 
   const handleSignIn = async () => {
+    setErrors({});
+    
+    // Validate inputs with Zod
+    const result = loginSchema.safeParse({ emailAddress, password });
+
+    if (!result.success) {
+      const formattedErrors = {};
+      result.error.errors.forEach((err) => {
+        formattedErrors[err.path[0]] = err.message;
+      });
+      setErrors(formattedErrors);
+      return;
+    }
+
     setIsLoading(true);
     try {
-      const response = await api.post("/api/v1/auth/sign-in", { emailAddress, password });
+      const response = await api.post("/api/v1/auth/sign-in", {
+        emailAddress,
+        password,
+      });
       const data = response.data;
       if (data.success && data.data) {
         const user = { ...data.data, token: data.token };
         await setUser(user);
         toast.success(t("auth.successSignIn"));
+
         router.replace("/(app)/(tabs)");
       } else {
         toast.error(t("auth.invalidCredentials"));
@@ -50,178 +151,122 @@ const SignIn = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      className="flex-1 bg-[#FFFDF9]"
+      className="flex-1 bg-white"
     >
       <ScrollView
         className="flex-1"
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom + 24,
+        }}
         showsVerticalScrollIndicator={false}
       >
-        {/* Background Ambient Glow Elements */}
-        <View 
-          className="absolute top-0 left-0 right-0 bottom-0 overflow-hidden" 
-          pointerEvents="none" 
-          style={{ position: "absolute", zIndex: 0 }}
-        >
-          {/* Top-Left Ambient Circle */}
-          <View 
-            className="w-72 h-72 rounded-full bg-primary absolute -top-16 -left-16" 
-            style={{ opacity: 0.08 }}
-          />
-          {/* Bottom-Right Ambient Circle */}
-          <View 
-            className="w-80 h-80 rounded-full bg-secondary absolute -bottom-20 -right-20" 
-            style={{ opacity: 0.1 }}
-          />
-        </View>
-
-        {/* Dedicated Language Selector Row */}
-        <View className="w-full flex-row justify-end px-6 pt-12 pb-2" style={{ zIndex: 10 }}>
+        {/* Language Selector Top Bar */}
+        <View className="mt-4 flex-row justify-end px-5">
           <LanguageSelect />
         </View>
 
-        {/* Main Content Container */}
-        <View className="flex-1 px-6 pb-8 justify-between" style={{ zIndex: 1 }}>
-          {/* Header section (Branding & Welcome) */}
-          <View className="items-center mt-2">
-            <Logo className="h-12 w-32 mb-6" />
-            
-            {/* Elegant Illustration wrapper */}
-            <View className="items-center justify-center my-4 relative">
-              <View 
-                className="w-36 h-36 rounded-full bg-secondary absolute" 
-                style={{ opacity: 0.15 }}
-              />
-              <AppImage source={images.illustration2} width={130} height={130} contentFit="contain" />
-            </View>
+        {/* Minimal Typography Header */}
+        <View className="mt-8 px-6 pb-4">
+          <Logo className="mb-10 h-8 w-24" />
 
-            <View className="items-center mt-3 mb-6">
-              {/* Premium Welcome Badge */}
-              <View className="bg-accent px-3 py-1 rounded-full mb-3 flex-row items-center">
-                <Text className="text-xs font-extrabold text-accent-foreground tracking-wider uppercase">
-                  YUMI CATERING
-                </Text>
-              </View>
-              <Text className="text-3xl font-extrabold text-neutral-darkest tracking-tight text-center">
-                {t("auth.welcomeBack")} 👋
-              </Text>
-              <Text className="text-sm font-semibold text-neutral-dark mt-2 text-center px-4">
-                {t("auth.loginTitle")}
-              </Text>
-            </View>
-          </View>
+          <Text className="text-3xl font-black tracking-tight text-neutral-900">
+            {t("auth.welcomeBack")}
+          </Text>
+          <Text className="mt-2 text-sm font-medium leading-5 text-neutral-400">
+            {t("auth.loginTitle")}
+          </Text>
+        </View>
 
-          {/* Form and Action Area wrapped in a floating card */}
-          <View className="flex-1 justify-center max-w-md w-full mx-auto">
-            <View className="bg-white rounded-3xl p-6 shadow-md border border-slate-100 gap-5">
-              
-              {/* Email Input Container */}
-              <View className="gap-2">
-                <Text className="text-xs font-bold text-neutral-darkest/70 ml-1">
-                  {t("auth.email")}
-                </Text>
-                <View className={`flex-row items-center h-14 w-full rounded-2xl border-2 px-4 bg-slate-50 ${
-                  isEmailFocused ? "border-primary bg-white" : "border-slate-100"
-                }`}>
-                  <Mail size={18} color={isEmailFocused ? "#019C7F" : "#9CA3AF"} />
-                  {/* Subtle vertical separator */}
-                  <View className="w-[1px] h-6 bg-slate-200 mx-3" />
-                  <TextInput
-                    value={emailAddress}
-                    onChangeText={setEmailAddress}
-                    onFocus={() => setIsEmailFocused(true)}
-                    onBlur={() => setIsEmailFocused(false)}
-                    placeholder={t("auth.email")}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    className="flex-1 h-full text-base text-neutral-darkest font-medium"
-                    placeholderTextColor="#9CA3AF"
-                  />
-                </View>
-              </View>
+        {/* Clean Interactive Input Fields */}
+        <View className="mt-8 gap-5 px-6">
+          <SimpleInput
+            label={t("auth.email")}
+            placeholder={t("auth.email")}
+            value={emailAddress}
+            onChangeText={(val) => {
+              setEmailAddress(val);
+              if (errors.emailAddress) setErrors((prev) => ({ ...prev, emailAddress: null }));
+            }}
+            isFocused={isEmailFocused}
+            onFocus={() => setIsEmailFocused(true)}
+            onBlur={() => setIsEmailFocused(false)}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
+            error={errors.emailAddress}
+          />
 
-              {/* Password Input Container */}
-              <View className="gap-2">
-                <Text className="text-xs font-bold text-neutral-darkest/70 ml-1">
-                  {t("auth.password")}
-                </Text>
-                <View className={`flex-row items-center h-14 w-full rounded-2xl border-2 px-4 bg-slate-50 ${
-                  isPasswordFocused ? "border-primary bg-white" : "border-slate-100"
-                }`}>
-                  <Lock size={18} color={isPasswordFocused ? "#019C7F" : "#9CA3AF"} />
-                  {/* Subtle vertical separator */}
-                  <View className="w-[1px] h-6 bg-slate-200 mx-3" />
-                  <TextInput
-                    value={password}
-                    onChangeText={setPassword}
-                    onFocus={() => setIsPasswordFocused(true)}
-                    onBlur={() => setIsPasswordFocused(false)}
-                    placeholder={t("auth.password")}
-                    secureTextEntry={!showPassword}
-                    className="flex-1 h-full pr-10 text-base text-neutral-darkest font-medium"
-                    placeholderTextColor="#9CA3AF"
-                  />
-                  <Pressable
-                    onPress={() => setShowPassword(!showPassword)}
-                    hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-                    className="absolute right-4"
-                  >
-                    {showPassword ? (
-                      <EyeOff size={18} color="#9CA3AF" />
-                    ) : (
-                      <Eye size={18} color="#9CA3AF" />
-                    )}
-                  </Pressable>
-                </View>
+          <View>
+            <SimpleInput
+              label={t("auth.password")}
+              placeholder={t("auth.password")}
+              value={password}
+              onChangeText={(val) => {
+                setPassword(val);
+                if (errors.password) setErrors((prev) => ({ ...prev, password: null }));
+              }}
+              isFocused={isPasswordFocused}
+              onFocus={() => setIsPasswordFocused(true)}
+              onBlur={() => setIsPasswordFocused(false)}
+              secureTextEntry={!showPassword}
+              showToggle
+              onToggle={() => setShowPassword(!showPassword)}
+              error={errors.password}
+            />
 
-                {/* Forgot password */}
-                <View className="items-end mt-1">
-                  <Link href="/(auth)/forgot-password" asChild>
-                    <Pressable hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-                      <Text className="text-sm font-bold text-primary">
-                        {t("auth.forgotPassword")}
-                      </Text>
-                    </Pressable>
-                  </Link>
-                </View>
-              </View>
-
-              {/* Submit Button */}
-              <Button
-                onPress={handleSignIn}
-                disabled={isLoading}
-                loading={isLoading}
-                className="w-full h-14 rounded-2xl bg-primary flex-row items-center justify-center shadow-md mt-2"
+            {/* Absolute Fallback Route for Forgot Password */}
+            <View className="mt-3 items-end">
+              <Pressable
+                onPress={() => router.push("/forgot-password")}
+                hitSlop={10}
               >
-                {isLoading ? t("auth.signInProcessing") : t("auth.signIn")}
-              </Button>
-            </View>
-
-            {/* Legal Links Footer */}
-            <View className="mt-8 mb-4 px-4">
-              <Text className="text-center text-xs leading-5 text-neutral-dark/80 font-semibold">
-                {t("auth.loginAgreement")}{" "}
-                <Text
-                  className="font-extrabold text-primary underline"
-                  onPress={() =>
-                    legalLinks?.privacy && WebBrowser.openBrowserAsync(legalLinks.privacy)
-                  }
-                >
-                  {t("auth.privacyPolicy")}
+                <Text className="text-sm font-bold text-primary">
+                  {t("auth.forgotPassword")}
                 </Text>
-                {" & "}
-                <Text
-                  className="font-extrabold text-primary underline"
-                  onPress={() =>
-                    legalLinks?.terms && WebBrowser.openBrowserAsync(legalLinks.terms)
-                  }
-                >
-                  {t("auth.termsOfService")}
-                </Text>
-              </Text>
+              </Pressable>
             </View>
           </View>
+
+          {/* Core Action CTA Button */}
+          <Button
+            onPress={handleSignIn}
+            disabled={isLoading}
+            loading={isLoading}
+            className="mt-4 h-16 w-full items-center justify-center rounded-2xl bg-primary active:opacity-90"
+          >
+            <Text className="text-base font-black text-white">
+              {isLoading ? t("auth.signInProcessing") : t("auth.signIn")}
+            </Text>
+          </Button>
+        </View>
+
+        {/* Native Linking Footer for Webview Web Safeties */}
+        <View className="mt-auto items-center px-8 pt-16">
+          <Text className="text-center text-[11px] font-medium leading-4 text-neutral-400">
+            {t("auth.byContinuing")}{" "}
+            <Text
+              className="font-bold text-neutral-600 underline"
+              onPress={() =>
+                Linking.openURL(
+                  "https://yumi.ro/politica-de-confidentialitate/"
+                )
+              }
+            >
+              {t("auth.privacyPolicy")}
+            </Text>{" "}
+            &{" "}
+            <Text
+              className="font-bold text-neutral-600 underline"
+              onPress={() =>
+                Linking.openURL("https://yumi.ro/termeni-si-conditii/")
+              }
+            >
+              {t("auth.termsOfService")}
+            </Text>
+          </Text>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

@@ -6,6 +6,7 @@ import {
   Modal,
   Switch,
   Linking,
+  RefreshControl,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
@@ -21,6 +22,7 @@ import {
   Smartphone,
   Check,
   Wallet,
+  ChevronRight,
 } from "lucide-react-native";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
@@ -41,20 +43,20 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useUser } from "@/contexts/UserContext";
 
-// ─── Reusable bottom sheet wrapper ───────────────────────────────────────────
+// ─── Reusable bottom sheet wrapper (Zomato/Swiggy Clean Style) ───────────────
 
 const BottomSheet = ({ visible, onClose, title, subtitle = null, children }) => (
   <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
-    <Pressable className="flex-1 justify-end bg-overlay" onPress={onClose}>
+    <Pressable className="flex-1 justify-end bg-black/50" onPress={onClose}>
       <Pressable
         onPress={(e) => e.stopPropagation()}
-        className="rounded-t-3xl bg-white px-4 pb-10 pt-5"
+        className="rounded-t-[28px] bg-white px-5 pb-10 pt-4 shadow-xl"
       >
-        <View className="mb-1 items-center">
-          <View className="mb-4 h-1 w-10 rounded-full bg-muted" />
-          <Text className="text-lg font-semibold text-foreground">{title}</Text>
+        <View className="mb-5 items-center">
+          <View className="mb-4 h-1.5 w-12 rounded-full bg-neutral-200" />
+          <Text className="text-xl font-bold text-neutral-900">{title}</Text>
           {subtitle ? (
-            <Text className="mt-1 text-center text-sm text-muted-foreground">{subtitle}</Text>
+            <Text className="mt-1 text-center text-sm font-medium text-neutral-500">{subtitle}</Text>
           ) : null}
         </View>
         {children}
@@ -66,19 +68,21 @@ const BottomSheet = ({ visible, onClose, title, subtitle = null, children }) => 
 // ─── Notification toggle row ──────────────────────────────────────────────────
 
 const NotificationRow = ({ icon: Icon, label, description, value, onValueChange }) => (
-  <View className="mb-3 flex-row items-center rounded-2xl bg-muted/40 px-4 py-3">
-    <View className="mr-3 h-10 w-10 items-center justify-center rounded-full bg-primary-muted">
-      <Icon size={18} color="#019C7F" />
-    </View>
-    <View className="min-w-0 flex-1">
-      <Text className="font-semibold text-foreground">{label}</Text>
-      <Text className="mt-0.5 text-xs leading-4 text-muted-foreground">{description}</Text>
+  <View className="mb-3 flex-row items-center justify-between rounded-2xl border border-neutral-100 bg-neutral-50/50 p-4">
+    <View className="flex-1 flex-row items-start gap-3.5 pr-2">
+      <View className="mt-0.5 h-9 w-9 items-center justify-center rounded-xl bg-neutral-100">
+        <Icon size={18} color="#404040" />
+      </View>
+      <View className="flex-1">
+        <Text className="text-base font-semibold text-neutral-900">{label}</Text>
+        <Text className="mt-0.5 text-xs font-medium leading-4 text-neutral-500">{description}</Text>
+      </View>
     </View>
     <Switch
       value={value}
       onValueChange={onValueChange}
-      trackColor={{ false: "#CBD5E1", true: "#BDEDE4" }}
-      thumbColor={value ? "#019C7F" : "#F8FAFC"}
+      trackColor={{ false: "#E5E5E5", true: "#019C7F" }}
+      thumbColor="#FFFFFF"
     />
   </View>
 );
@@ -119,16 +123,18 @@ const NotificationPreferencesModal = ({ visible, onClose }) => {
       title={t("navigation.notifications")}
       subtitle={t("notifications.preferencesDescription")}
     >
-      {rows.map((row) => (
-        <NotificationRow
-          key={row.key}
-          icon={row.icon}
-          label={row.label}
-          description={row.description}
-          value={prefs[row.key]}
-          onValueChange={() => toggle(row.key)}
-        />
-      ))}
+      <View className="mt-1">
+        {rows.map((row) => (
+          <NotificationRow
+            key={row.key}
+            icon={row.icon}
+            label={row.label}
+            description={row.description}
+            value={prefs[row.key]}
+            onValueChange={() => toggle(row.key)}
+          />
+        ))}
+      </View>
     </BottomSheet>
   );
 };
@@ -146,53 +152,68 @@ const LanguageSelectModal = ({ visible, onClose }) => {
 
   return (
     <BottomSheet visible={visible} onClose={onClose} title={t("profile.language")}>
-      {LANGUAGES.map((lang) => {
-        const isActive = activeLang === lang.code;
-        return (
-          <Pressable
-            key={lang.code}
-            onPress={() => {
-              i18n.changeLanguage(lang.code);
-              onClose();
-            }}
-            className={`mb-2 flex-row items-center justify-between rounded-xl px-4 py-3.5 active:opacity-70 ${
-              isActive ? "bg-primary-muted" : "bg-muted/40"
-            }`}
-          >
-            <View className="flex-row items-center gap-3">
-              <Text className="text-xl">{lang.flag}</Text>
-              <Text className={`font-medium ${isActive ? "text-primary" : "text-foreground"}`}>
-                {lang.label}
-              </Text>
-            </View>
-            {isActive ? <Check size={16} color="#019C7F" /> : null}
-          </Pressable>
-        );
-      })}
+      <View className="mt-1 gap-2.5">
+        {LANGUAGES.map((lang) => {
+          const isActive = activeLang === lang.code;
+          return (
+            <Pressable
+              key={lang.code}
+              onPress={() => {
+                i18n.changeLanguage(lang.code);
+                onClose();
+              }}
+              className={`flex-row items-center justify-between rounded-2xl border p-4 active:opacity-80 ${
+                isActive ? "border-primary/20 bg-primary/5" : "border-neutral-100 bg-neutral-50/50"
+              }`}
+            >
+              <View className="flex-row items-center gap-3">
+                <Text className="text-2xl">{lang.flag}</Text>
+                <Text className={`text-base font-semibold ${isActive ? "text-primary" : "text-neutral-800"}`}>
+                  {lang.label}
+                </Text>
+              </View>
+              {isActive ? (
+                <View className="h-5 w-5 items-center justify-center rounded-full bg-primary">
+                  <Check size={12} color="#FFF" strokeWidth={3} />
+                </View>
+              ) : null}
+            </Pressable>
+          );
+        })}
+      </View>
     </BottomSheet>
   );
 };
 
-// ─── Wallet card ──────────────────────────────────────────────────────────────
+// ─── Wallet card (Swiggy Money Inspired Compact Style) ──────────────────────
 
 const WalletCard = ({ credits, t }) => (
-  <View className="mt-5 w-full overflow-hidden rounded-2xl bg-[#0C172A] px-5 py-4">
+  <View className="mx-4 mt-4 overflow-hidden rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm">
     <View className="flex-row items-center justify-between">
-      <View className="min-w-0 flex-1 pr-4">
-        <Text className="text-[11px] font-semibold uppercase tracking-wider text-white/55">
-          {t("profile.wallet")}
-        </Text>
-        <View className="mt-1.5 flex-row items-baseline gap-1.5">
-          <Text className="text-3xl font-bold text-white">{credits > 0 ? credits : 0}</Text>
-          <Text className="text-sm font-medium text-white/70">{t("profile.creditsLabel")}</Text>
+      <View className="flex-row items-center gap-3">
+        <View className="h-10 w-10 items-center justify-center rounded-xl bg-amber-50">
+          <Wallet size={20} color="#D97706" strokeWidth={2.5} />
         </View>
-        {credits === 0 ? (
-          <Text className="mt-1.5 text-xs text-white/45">{t("profile.NoAvailableCredits")}</Text>
-        ) : null}
+        <View>
+          <Text className="text-xs font-bold uppercase tracking-wider text-neutral-400">
+            {t("profile.wallet")}
+          </Text>
+          <View className="mt-0.5 flex-row items-baseline gap-1">
+            <Text className="text-xl font-black text-neutral-900">{credits > 0 ? credits : 0}</Text>
+            <Text className="text-xs font-semibold text-neutral-500">{t("profile.creditsLabel")}</Text>
+          </View>
+        </View>
       </View>
-      <View className="h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/10">
-        <Wallet size={22} color="#fff" strokeWidth={2} />
-      </View>
+      
+      {credits === 0 ? (
+        <View className="rounded-full bg-neutral-100 px-3 py-1.5">
+          <Text className="text-[11px] font-bold text-neutral-500">
+            {t("profile.NoAvailableCredits")}
+          </Text>
+        </View>
+      ) : (
+        <ChevronRight size={16} color="#A3A3A3" strokeWidth={2.5} />
+      )}
     </View>
   </View>
 );
@@ -208,6 +229,7 @@ const Profile = () => {
   const [showLogout, setShowLogout] = useState(false);
   const [showLanguage, setShowLanguage] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const displayName =
     user?.firstName && user?.lastName
@@ -219,63 +241,78 @@ const Profile = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-neutral-50" edges={["top"]}>
       <ScreenHeader title={t("navigation.profile")} />
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 104 }}
+        contentContainerStyle={{ paddingBottom: 60 }}
+        className="flex-1"
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={async () => {
+              setRefreshing(true);
+              try {
+                await new Promise((resolve) => setTimeout(resolve, 500));
+              } finally {
+                setRefreshing(false);
+              }
+            }}
+            tintColor="#019C7F"
+          />
+        }
       >
-        {/* ── Hero ── */}
-        <View className="border-b border-border/50 bg-white px-4 pb-5 pt-4">
-          <View className="flex-row items-start gap-4">
-            <Avatar className="h-20 w-20 border-2 border-primary/15">
+        {/* ── Hero Unit (Clicking the profile card opens the configuration) ── */}
+        <Pressable 
+          onPress={() => setShowEdit(true)}
+          className="bg-white px-5 pb-5 pt-4 flex-row items-center justify-between active:bg-neutral-50/60"
+        >
+          <View className="flex-1 flex-row items-center gap-4">
+            <Avatar className="h-16 w-16 rounded-full border border-neutral-100 shadow-sm">
               <AvatarImage source={user?.profilePictureURL} />
-              <AvatarFallback className="bg-primary-muted">
-                <Text className="text-2xl font-bold text-primary">
+              <AvatarFallback className="bg-primary/10">
+                <Text className="text-xl font-bold text-primary">
                   {displayName.charAt(0).toUpperCase()}
                 </Text>
               </AvatarFallback>
             </Avatar>
 
-            <View className="min-w-0 flex-1 pt-1">
-              <View className="flex-row items-start justify-between gap-2">
-                <Text className="flex-1 text-xl font-bold text-foreground" numberOfLines={2}>
-                  {displayName}
-                </Text>
-                <Pressable
-                  onPress={() => setShowEdit(true)}
-                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                  className="h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted/60 active:bg-muted"
-                >
-                  <Pencil size={16} color="#374151" strokeWidth={2} />
-                </Pressable>
-              </View>
-              <Text className="mt-1 text-sm text-muted-foreground" numberOfLines={1}>
-                {user?.emailAddress}
+            <View className="flex-1 pr-2">
+              <Text className="text-xl font-black tracking-tight text-neutral-900" numberOfLines={1}>
+                {displayName}
+              </Text>
+              <Text className="mt-0.5 text-xs font-semibold text-neutral-400" numberOfLines={1}>
+                {user?.emailAddress || "No email linked"}
               </Text>
               {user?.phone ? (
-                <Text className="mt-0.5 text-sm text-muted-foreground" numberOfLines={1}>
+                <Text className="mt-0.5 text-xs font-semibold text-neutral-400" numberOfLines={1}>
                   {user.phone}
                 </Text>
               ) : null}
             </View>
           </View>
 
-          <WalletCard credits={credits} t={t} />
-        </View>
+          <ChevronRight size={16} color="#A3A3A3" strokeWidth={2.5} />
+        </Pressable>
 
-        <View className="px-4 pt-4">
-          {/* ── Children ── */}
-          <View className="mb-5">
-            <Text className="mb-2 px-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        {/* ── Wallet section sits perfectly floating beneath the baseline header ── */}
+        <WalletCard credits={credits} t={t} />
+
+        <View className="px-4 pt-5">
+          {/* ── Direct Interactive Children Section Container ── */}
+          <View className="mb-5 rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm">
+            <Text className="mb-3 px-1 text-xs font-extrabold uppercase tracking-widest text-neutral-400">
               {t("profile.childrenSection")}
             </Text>
             <ProfileChildrenSection />
           </View>
 
-          {/* ── Help ── */}
-          <ProfileSection title={t("profile.helpSection")}>
+          {/* ── Help Options Card Container ── */}
+          <View className="mb-5 rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm">
+            <Text className="mb-1 px-1 text-xs font-extrabold uppercase tracking-widest text-neutral-400">
+              {t("profile.helpSection")}
+            </Text>
             <ProfileMenuRow
               icon={Info}
               label={t("quickLinks.about.title")}
@@ -295,10 +332,13 @@ const Profile = () => {
               onPress={() => router.push("/(app)/support")}
               isLast
             />
-          </ProfileSection>
+          </View>
 
-          {/* ── Preferences ── */}
-          <ProfileSection title={t("profile.preferencesSection")}>
+          {/* ── Preferences Card Container ── */}
+          <View className="mb-6 rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm">
+            <Text className="mb-1 px-1 text-xs font-extrabold uppercase tracking-widest text-neutral-400">
+              {t("profile.preferencesSection")}
+            </Text>
             <ProfileMenuRow
               icon={Globe}
               label={t("profile.language")}
@@ -318,14 +358,17 @@ const Profile = () => {
               destructive
               isLast
             />
-          </ProfileSection>
+          </View>
 
-          {/* ── Footer ── */}
-          <View className="pb-2 pt-1">
-            <Text className="text-center text-sm text-muted-foreground">
+          {/* ── Modern App Version / Branding Footer ── */}
+          <View className="items-center py-4">
+            <Text className="text-xs font-bold text-neutral-300 uppercase tracking-widest">
+              Version 1.0.0
+            </Text>
+            <Text className="mt-1 text-center text-xs font-semibold text-neutral-400">
               {currentYear} {t("ui.developedBy")}{" "}
               <Text
-                className="font-semibold text-primary"
+                className="font-bold text-primary"
                 onPress={() => Linking.openURL("https://weblike.ro/")}
               >
                 weblike.ro
@@ -341,23 +384,30 @@ const Profile = () => {
       <ProfileEditDialog open={showEdit} onOpenChange={setShowEdit} />
 
       <AlertDialog open={showLogout} onOpenChange={setShowLogout}>
-        <AlertDialogContent>
+        <AlertDialogContent className="rounded-3xl max-w-[90%]">
           <AlertDialogHeader>
-            <AlertDialogTitle>{t("confirmations.areYouSure")}</AlertDialogTitle>
-            <AlertDialogDescription>{t("confirmations.logoutConfirmation")}</AlertDialogDescription>
+            <AlertDialogTitle className="text-lg font-bold text-neutral-900">
+              {t("confirmations.areYouSure")}
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-sm font-medium text-neutral-500 mt-1">
+              {t("confirmations.logoutConfirmation")}
+            </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onPress={() => setShowLogout(false)}>
-              {t("actions.cancel")}
+          <AlertDialogFooter className="mt-4 flex-row gap-3">
+            <AlertDialogCancel 
+              onPress={() => setShowLogout(false)} 
+              className="flex-1 rounded-xl border-neutral-200 py-3"
+            >
+              <Text className="font-bold text-neutral-700">{t("actions.cancel")}</Text>
             </AlertDialogCancel>
             <AlertDialogAction
               onPress={() => {
                 setShowLogout(false);
                 logout();
               }}
-              className="bg-secondary"
+              className="flex-1 rounded-xl bg-red-500 py-3 active:bg-red-600"
             >
-              {t("navigation.logout")}
+              <Text className="font-bold text-white">{t("navigation.logout")}</Text>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -1,4 +1,4 @@
-import { View, Text, Linking, ScrollView } from "react-native";
+import { View, Text, Linking, ScrollView, RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ScreenHeader from "@/components/ScreenHeader";
 import Loader from "@/components/Loader";
@@ -8,10 +8,12 @@ import { Headset, Mail, Phone } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSupportData } from "@/hooks/useSupportData";
+import { useState } from "react";
 
 const Support = () => {
   const { t } = useTranslation();
-  const { supportData, isLoading: loading } = useSupportData();
+  const [refreshing, setRefreshing] = useState(false);
+  const { supportData, isLoading: loading, mutate } = useSupportData();
 
   const handleContactClick = (method) => {
     if (method === "email" && supportData.companySupportEmail) {
@@ -28,7 +30,23 @@ const Support = () => {
       {loading ? (
         <Loader />
       ) : (
-        <ScrollView className="flex-1">
+        <ScrollView
+          className="flex-1"
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={async () => {
+                setRefreshing(true);
+                try {
+                  await mutate();
+                } finally {
+                  setRefreshing(false);
+                }
+              }}
+              tintColor="#019C7F"
+            />
+          }
+        >
           <View className="mb-4 bg-accent py-4">
             <View className="items-center justify-center">
               <Logo className="h-44 w-auto" />

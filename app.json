@@ -1,18 +1,20 @@
 {
   "expo": {
     "name": "Yumi",
-    "slug": "yumi",
+    "slug": "yumi-catering",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo.png",
+
+    "icon": "./assets/app-icon.png",
+
     "scheme": "yumi",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
 
     "splash": {
-      "image": "./assets/images/backgrounds/bg.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#FFFFFF"
+      "image": "./assets/app-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#019C7F"
     },
 
     "ios": {
@@ -22,19 +24,26 @@
 
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/app-icon.png",
+        "backgroundColor": "#019C7F"
       },
       "package": "com.weblike.yumi",
       "softwareKeyboardLayoutMode": "pan",
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ]
+      "permissions": ["android.permission.RECORD_AUDIO"]
     },
 
     "plugins": [
       "expo-router",
       "expo-secure-store",
+
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/app-icon.png",
+          "color": "#019C7F"
+        }
+      ],
+
       [
         "expo-image-picker",
         {

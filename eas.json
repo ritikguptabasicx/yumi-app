@@ -4,9 +4,13 @@
     "appVersionSource": "remote"
   },
   "build": {
-    "development": {
+     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+
+      "env": {
+        "EXPO_PUBLIC_API_BASE_URL": "http://192.168.1.120:3000"
+      }
     },
     "preview": {
       "distribution": "internal"

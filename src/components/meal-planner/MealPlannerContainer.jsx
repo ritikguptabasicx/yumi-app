@@ -14,7 +14,7 @@ import { images } from "@/lib/assets";
 import { normalizeMenuItems } from "@/lib/mealPlanner";
 import { Button } from "@/components/ui/button";
 
-const MealPlannerContainer = () => {
+const MealPlannerContainer = ({ refreshControl }) => {
   const {
     selectedDay,
     setSelectedDay,
@@ -210,6 +210,7 @@ const MealPlannerContainer = () => {
         availableMeals={getAvailableMealsForDay(selectedDay)}
         onBack={handleBack}
         isLastDay={selectedDay === getAvailableWeekdays()}
+        refreshControl={refreshControl}
       />
     </View>
   );
