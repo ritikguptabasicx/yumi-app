@@ -13,4 +13,5 @@ export const images = {
   placeholder: require("../../assets/images/icons/placeholder.png"),
   childPlaceholder: require("../../assets/images/icons/child-placeholder.png"),
   appIcon: require("../../assets/app-icon.png"),
+  signinBg: require("../../assets/images/backgrounds/signin-bg.png"),
 };
