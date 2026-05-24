@@ -1,6 +1,7 @@
 import { clsx } from "clsx";
 import { format, isValid } from "date-fns";
 import { twMerge } from "tailwind-merge";
+import * as Notifications from "expo-notifications";
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -29,7 +30,6 @@ export const formatDate = (dateString) => {
     return "Invalid date";
   }
 };
-
 
 export const showMealAddedNotification = async (mealName) => {
   await Notifications.scheduleNotificationAsync({

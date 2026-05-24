@@ -10,12 +10,21 @@ import { I18nextProvider } from "react-i18next";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "@/lib/toastConfig";
 import * as SplashScreen from "expo-splash-screen";
+import * as Notifications from "expo-notifications";
 
 import { UserProvider } from "@/contexts/UserContext";
 import i18n, { initLanguage } from "@/lib/i18n";
 import SplashScreenView from "@/components/SplashScreen";
 
 SplashScreen.preventAutoHideAsync();
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 const queryClient = new QueryClient();
 
