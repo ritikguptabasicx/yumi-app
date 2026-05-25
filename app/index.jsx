@@ -3,10 +3,14 @@ import { useUser } from "@/contexts/UserContext";
 import Loader from "@/components/Loader";
 
 export default function Index() {
-  const { isAuthenticated, isReady } = useUser();
+  const { user, isAuthenticated, isReady } = useUser();
 
   if (!isReady) {
     return <Loader />;
+  }
+
+  if (isAuthenticated && user?.isTeacher) {
+    return <Redirect href="/(app)/teacher" />;
   }
 
   if (isAuthenticated) {

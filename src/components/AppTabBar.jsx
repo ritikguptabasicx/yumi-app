@@ -18,6 +18,7 @@ const TAB_CONFIG = [
     labelKey: "navigation.orderHistory",
     Icon: History,
   },
+  {name: "children", labelKey: "navigation.children", Icon: User },
   { name: "profile", labelKey: "navigation.profile", Icon: User },
 ];
 

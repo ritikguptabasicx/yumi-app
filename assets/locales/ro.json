@@ -114,13 +114,51 @@
     "selectClass": "Selectați Clasa",
     "selectSchool": "Selectați Școala",
     "switchChildProfile": "Schimbă profilul copilului",
+    "childName": "Numele copilului",
+    "primaryClass": "Clasă principală",
+    "associatedClasses": "Clase asociate",
     "teacherName": "Numele Profesorului",
     "updateChildDetails": "Actualizează informațiile copilului tău"
   },
   "common": {
     "backToHome": "Înapoi la Acasă",
     "cancel": "Anulează",
+    "noData": "Nu există date",
     "showAll": "Vezi tot"
+  },
+  "budget": {
+    "weeklyBudget": "Buget săptămânal",
+    "used": "Folosit",
+    "available": "Disponibil"
+  },
+  "childrenMeals": {
+    "cancel": "Anulează",
+    "sending": "Se trimite...",
+    "pendingTab": "În așteptare",
+    "deliveredTab": "Livrate",
+    "weekLabel": "Săptămâna",
+    "itemsLabel": "articole",
+    "pendingTitle": "Nu există mese în așteptare",
+    "pendingDescription": "Toate mesele au fost livrate.",
+    "deliveredTitle": "Nu există comenzi livrate",
+    "deliveredDescription": "Comenzile livrate vor apărea aici când sunt disponibile.",
+    "class": "Clasa",
+    "qty": "Cantitate",
+    "deliver": "Livrează",
+    "delivered": "Livrat",
+    "deliveredSuccess": "Masa a fost marcată ca livrată.",
+    "reportTitle": "Solicitare raport",
+    "reportDescription": "Introdu adresa ta de email pentru a primi raportul comenzilor pentru copii",
+    "reportEmailPlaceholder": "Adresa de email",
+    "reportSend": "Trimite",
+    "reportSuccess": "Raportul a fost trimis cu succes.",
+    "undoSuccess": "Starea livrării a fost returnată la în așteptare",
+    "undo": "Anulează livrarea",
+    "confirmTitle": "Ești sigur?",
+    "confirmUndo": "Dorești să anulezi această livrare?",
+    "confirmCancel": "Anulează",
+    "confirmYes": "Da",
+    "orderNumber": "Comanda nr."
   },
   "confirmations": {
     "areYouSure": "Ești sigur?",
@@ -245,6 +283,8 @@
     "orderHistory": "Istoric comenzi",
     "profile": "Profil",
     "parentProfile": "Profil părinte",
+    "children": "Copii",
+    "childrenMeals": "Mesele copiilor",
     "support": "Suport"
   },
   "notFound": {
@@ -348,6 +388,22 @@
     "about": {
       "description": "Despre Aplicație",
       "title": "Despre"
+    },
+    "mealPlanner": {
+      "description": "Planifică mesele săptămânale",
+      "title": "Planificator mese"
+    },
+    "orderHistory": {
+      "description": "Vezi comenzile anterioare",
+      "title": "Istoric comenzi"
+    },
+    "children": {
+      "description": "Vezi copiii alocați",
+      "title": "Copii"
+    },
+    "childrenOrders": {
+      "description": "Gestionează mesele copiilor",
+      "title": "Mesele copiilor"
     },
     "faq": {
       "description": "Întrebări comune",

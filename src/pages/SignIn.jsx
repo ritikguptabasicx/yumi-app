@@ -110,43 +110,68 @@ const SignIn = () => {
   });
 
   const handleSignIn = async () => {
-    setErrors({});
+  setErrors({});
 
-    // Validate inputs with Zod
-    const result = loginSchema.safeParse({ emailAddress, password });
+  // Validate inputs
+  const result = loginSchema.safeParse({
+    emailAddress,
+    password,
+  });
 
-    if (!result.success) {
-      const formattedErrors = {};
-      result.error.errors.forEach((err) => {
-        formattedErrors[err.path[0]] = err.message;
-      });
-      setErrors(formattedErrors);
+  if (!result.success) {
+    const formattedErrors = {};
+
+    result.error.errors.forEach((err) => {
+      formattedErrors[err.path[0]] = err.message;
+    });
+
+    setErrors(formattedErrors);
+    return;
+  }
+
+  setIsLoading(true);
+
+  try {
+    // ONLY ONE API CALL
+    const response = await api.post("/api/v1/auth/sign-in", {
+      emailAddress,
+      password,
+    });
+
+    const responseData = response.data;
+
+    if (!responseData?.success || !responseData?.data) {
+      toast.error(t("auth.invalidCredentials"));
       return;
     }
 
-    setIsLoading(true);
-    try {
-      const response = await api.post("/api/v1/auth/sign-in", {
-        emailAddress,
-        password,
-      });
-      const data = response.data;
-      if (data.success && data.data) {
-        const user = { ...data.data, token: data.token };
-        await setUser(user);
-        toast.success(t("auth.successSignIn"));
+    const user = {
+      ...responseData.data,
+      token: responseData.token,
+      isTeacher: responseData.data.role === "TEACHER",
+    };
 
-        router.replace("/(app)/(tabs)");
-      } else {
-        toast.error(t("auth.invalidCredentials"));
-      }
-    } catch (error) {
-      console.error("Sign in error:", error);
-      toast.error(t("errors.somethingWentWrong"));
-    } finally {
-      setIsLoading(false);
+    await setUser(user);
+
+    toast.success(t("auth.successSignIn"));
+
+    // Redirect based on role
+    if (responseData.data.role === "TEACHER") {
+      router.replace("/(app)/teacher");
+    } else {
+      router.replace("/(app)/(tabs)");
     }
-  };
+  } catch (error) {
+    console.error("Sign in error:", error);
+
+    toast.error(
+      error?.response?.data?.message ||
+        t("errors.somethingWentWrong")
+    );
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <ImageBackground

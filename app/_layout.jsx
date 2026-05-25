@@ -33,10 +33,25 @@ export default function RootLayout() {
 
   useEffect(() => {
     async function prepare() {
-      await initLanguage();
-      setAppReady(true);
-      await SplashScreen.hideAsync();
+      const start = Date.now();
+
+      try {
+        await initLanguage();
+
+        const elapsed = Date.now() - start;
+        const remaining = 1800 - elapsed;
+
+        if (remaining > 0) {
+          await new Promise((resolve) =>
+            setTimeout(resolve, remaining)
+          );
+        }
+      } finally {
+        setAppReady(true);
+        await SplashScreen.hideAsync();
+      }
     }
+
     prepare();
   }, []);
 

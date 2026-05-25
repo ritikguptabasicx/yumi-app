@@ -24,6 +24,13 @@ export default function AppLayout() {
       <Stack.Screen name="edit-child" />
       <Stack.Screen name="order-summary" />
       <Stack.Screen name="active-order" />
+      <Stack.Screen name="teacher-home" />
+      <Stack.Screen name="teacher-children" />
+      <Stack.Screen name="teacher-children-meals" />
+      <Stack.Screen name="teacher-order-history" />
+      <Stack.Screen name="teacher-meal-planner" />
+      <Stack.Screen name="teacher-order-summary" />
+      <Stack.Screen name="teacher-active-order" />
     </Stack>
   );
 }

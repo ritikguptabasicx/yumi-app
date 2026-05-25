@@ -296,17 +296,19 @@ const Profile = () => {
           <ChevronRight size={16} color="#A3A3A3" strokeWidth={2.5} />
         </Pressable>
 
-        {/* ── Wallet section sits perfectly floating beneath the baseline header ── */}
+
         <WalletCard credits={credits} t={t} />
 
         <View className="px-4 pt-5">
-          {/* ── Direct Interactive Children Section Container ── */}
+
+          {!user.isTeacher && (
           <View className="mb-5 rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm">
             <Text className="mb-3 px-1 text-xs font-extrabold uppercase tracking-widest text-neutral-400">
               {t("profile.childrenSection")}
             </Text>
             <ProfileChildrenSection />
-          </View>
+          </View>)}
+
 
           {/* ── Help Options Card Container ── */}
           <View className="mb-5 rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm">

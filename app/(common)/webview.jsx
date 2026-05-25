@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { View, ActivityIndicator, Text, TouchableOpacity } from "react-native";
 import { WebView } from "react-native-webview";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -38,7 +38,7 @@ const getPaymentResultFromUrl = (url = "") => {
 };
 
 const buildPaymentRoute = ({ isSuccess, queryParams = {} }) => ({
-  pathname: isSuccess ? "/(auth)/success" : "/(auth)/failure",
+  pathname: isSuccess ? "/success" : "/failure",
   params: {
     invoiceId:
       queryParams.invoice_id ||
@@ -58,6 +58,9 @@ const buildPaymentRoute = ({ isSuccess, queryParams = {} }) => ({
     ep_id: queryParams.ep_id || "",
   },
 });
+
+// Safety: if WebView loader is stuck, clear loading after timeout to help debug
+const DEFAULT_LOADING_TIMEOUT = 12000;
 
 export default function WebViewScreen() {
   const { url } = useLocalSearchParams();
@@ -79,6 +82,7 @@ export default function WebViewScreen() {
 
   const handleNavigationChange = useCallback(
     (state) => {
+      console.log("[WebView] navigationStateChange ->", state.url);
       setCurrentUrl(state.url);
 
       const result = getPaymentResultFromUrl(state.url);
@@ -93,6 +97,7 @@ export default function WebViewScreen() {
   // Handle postMessage from backend HTML (ReactNativeWebView.postMessage)
   const handleMessage = useCallback(
     (event) => {
+      console.log("[WebView] onMessage ->", event.nativeEvent.data);
       try {
         const payload = JSON.parse(event.nativeEvent.data);
         const result = getPaymentResultFromUrl(payload.url || "");
@@ -118,6 +123,8 @@ export default function WebViewScreen() {
     (request) => {
       const requestUrl = request.url;
 
+      console.log("[WebView] shouldStartLoadWithRequest ->", requestUrl);
+
       if (requestUrl.startsWith("yumi://")) {
         try {
           const result = getPaymentResultFromUrl(requestUrl);
@@ -134,6 +141,18 @@ export default function WebViewScreen() {
     },
     [router]
   );
+
+  // Fallback timer: if the WebView loader is still visible after a while, clear it to avoid stuck spinner during debugging.
+  useEffect(() => {
+    if (!isLoading) return undefined;
+
+    const t = setTimeout(() => {
+      console.warn("[WebView] loading timeout reached — clearing loader for debugging");
+      setIsLoading(false);
+    }, DEFAULT_LOADING_TIMEOUT);
+
+    return () => clearTimeout(t);
+  }, [isLoading]);
 
   if (!url) {
     return (

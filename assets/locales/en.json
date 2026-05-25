@@ -114,13 +114,51 @@
     "selectClass": "Select Class",
     "selectSchool": "Select School",
     "switchChildProfile": "Switch Child Profile",
+    "childName": "Child Name",
+    "primaryClass": "Primary Class",
+    "associatedClasses": "Associated Classes",
     "teacherName": "Teacher Name",
     "updateChildDetails": "Update your child's information"
   },
   "common": {
     "backToHome": "Back to Home",
     "cancel": "Cancel",
+    "noData": "No data found",
     "showAll": "Show All"
+  },
+  "budget": {
+    "weeklyBudget": "Weekly Budget",
+    "used": "Used",
+    "available": "Available"
+  },
+  "childrenMeals": {
+    "cancel": "Cancel",
+    "sending": "Sending...",
+    "pendingTab": "Pending",
+    "deliveredTab": "Delivered",
+    "weekLabel": "Week",
+    "itemsLabel": "items",
+    "pendingTitle": "No pending meals",
+    "pendingDescription": "All meals are delivered.",
+    "deliveredTitle": "No delivered orders",
+    "deliveredDescription": "Delivered orders will show here once available.",
+    "class": "Class",
+    "qty": "Quantity",
+    "deliver": "Deliver",
+    "delivered": "Delivered",
+    "deliveredSuccess": "Meal marked as delivered.",
+    "reportTitle": "Request Report",
+    "reportDescription": "Enter your email address to receive the children's orders report",
+    "reportEmailPlaceholder": "Email address",
+    "reportSend": "Submit",
+    "reportSuccess": "Report sent successfully.",
+    "undoSuccess": "Delivery status reverted to pending",
+    "undo": "Undo",
+    "confirmTitle": "Are you sure?",
+    "confirmUndo": "Do you want to undo this delivery?",
+    "confirmCancel": "Cancel",
+    "confirmYes": "Yes",
+    "orderNumber": "Order No"
   },
   "confirmations": {
     "areYouSure": "Are you sure?",
@@ -245,6 +283,8 @@
     "orderHistory": "Order History",
     "profile": "Profile",
     "parentProfile": "Parent Profile",
+    "children": "Children",
+    "childrenMeals": "Children Meals",
     "support": "Support"
   },
   "notFound": {
@@ -353,6 +393,22 @@
     "about": {
       "description": "About the App",
       "title": "About"
+    },
+    "mealPlanner": {
+      "description": "Plan weekly meals",
+      "title": "Meal Planner"
+    },
+    "orderHistory": {
+      "description": "View past orders",
+      "title": "Order History"
+    },
+    "children": {
+      "description": "View assigned children",
+      "title": "Children"
+    },
+    "childrenOrders": {
+      "description": "Manage children meals",
+      "title": "Children Meals"
     },
     "faq": {
       "description": "Common questions",
